@@ -64,7 +64,7 @@ def main() -> None:
 
     pages = re.search(r"Pages:\s+(\d+)", subprocess.run(["pdfinfo", str(pdf)], capture_output=True, text=True).stdout).group(1)
     with zipfile.ZipFile(zp) as z:
-        listing = "\n".join(f"    - `{n}`" for n in z.namelist())
+        listing = "\n".join(f"- `{n}`" for n in z.namelist())
     guide = (ROOT / "scripts" / "soict" / "huong_dan_template.md").read_text(encoding="utf-8")
     guide = guide.format(pages=pages, pdf_sha=sha(pdf), zip_sha=sha(zp), listing=listing,
                          pdf_kb=pdf.stat().st_size // 1024, zip_kb=zp.stat().st_size // 1024)
