@@ -611,5 +611,22 @@
       "expected_F1_routed": 0.7506084606932211,
       "P_correct_choice": 1.0
     }
+  },
+  "ignorance": {
+    "hospital": {
+      "q75": 0.7413737504030958,
+      "auroc_top_quarter": 0.7120967741935483,
+      "auroc_rest": 0.9815108892921961
+    },
+    "flights": {
+      "q75": 0.56,
+      "auroc_top_quarter": 0.6353924931893855,
+      "auroc_rest": 0.8967338395638629
+    },
+    "rayyan": {
+      "q75": 0.3664634183691896,
+      "auroc_top_quarter": 0.7662841191066998,
+      "auroc_rest": 0.4716131404112287
+    }
   }
 }

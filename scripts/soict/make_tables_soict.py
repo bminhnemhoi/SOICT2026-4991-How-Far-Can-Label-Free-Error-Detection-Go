@@ -7,6 +7,7 @@ the reviewer requests from experiments/soict2026/soict_results.json.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -40,13 +41,13 @@ def ci(lo_hi) -> str:
 
 def cell_table() -> str:
     t = llncs(MT.cell_table())
-    t = t.replace(r"\setlength{\tabcolsep}{4.2pt}", r"\scriptsize\setlength{\tabcolsep}{2.3pt}")
+    t = t.replace("\\footnotesize\n\\setlength{\\tabcolsep}{4.2pt}", "\\scriptsize\n\\setlength{\\tabcolsep}{2.3pt}")
     gidcl = "GIDCL~\\cite{gidcl}$^{b}$ & & & " + " & & & ".join(f"{GIDCL[d]:.2f}"[1:] for d in MT.DS) + r"\\"
     t = t.replace(r"ZeroED~\cite{zeroed}", gidcl + "\n" + r"ZeroED~\cite{zeroed}")
     t = t.replace(r"\emph{Whole tables, F1 as reported by the authors (other LLMs and protocols)}",
                   r"\emph{Whole tables, F1 as reported by the authors (other models and protocols)}")
     t = t.replace(".}\n\\label{tab:cell}",
-                  r". $^{b}$Uses 20 labeled tuples, GPT-4-turbo and fine-tuned RoBERTa/Mistral-7B; its Hospital "
+                  r". $^{b}$Uses 20 labeled tuples, GPT-4 Turbo, and fine-tuned RoBERTa/Mistral-7B; its Hospital "
                   r"errors are injected by the authors.}" "\n" r"\label{tab:cell}")
     return t
 
@@ -66,7 +67,7 @@ def models_table() -> str:
             cells += [f3(M["judges_only"]), f3(M["fused"]) + star,
                       f"{M['gain_vs_profilers']['diff']:+.3f}".replace("0.", ".").replace("-", "$-$") + sig]
         rows.append(lab + " & " + " & ".join(cells) + r"\\")
-    prof = " & ".join(f"\\multicolumn{{3}}{{c}}{{{f3(S['models'][d]['gpt-5-nano']['profilers'])}}}" for d in DSR)
+    prof = " & ".join(f" & {f3(S['models'][d]['gpt-5-nano']['profilers'])} & " for d in DSR)
     return (r"\begin{table}[t]" "\n" r"\centering" "\n"
             r"\caption{Row-level AUROC on the test rows with judges from different models: judges only (J), "
             r"fused with the profilers (Fused), and the gain $\Delta$ of the fusion over the profilers alone. "
@@ -82,7 +83,7 @@ def models_table() -> str:
 
 
 def fusion_table() -> str:
-    keys = [("DS fusion (ours)", r"\textbf{Evidential fusion (ours)}"), ("mean", "Mean of scores"),
+    keys = [("DS fusion (ours)", r"Evidential fusion (ours)"), ("mean", "Mean of scores"),
             ("max", "Maximum"), ("noisy-OR", "Noisy-OR"), ("rank average", "Rank average"),
             ("stacking (5-fold, labels)", r"Logistic stacking$^{a}$")]
     cols = [(d, m) for m in ("gpt-5-nano", "claude-haiku-5-5") for d in DSR if m in S["aggregators"][d]]
@@ -104,7 +105,7 @@ def fusion_table() -> str:
     for d, m in cols:
         dd = S["aggregators"][d][m]["_ds_vs_best_simple"]
         v = round(dd["diff"], 3)
-        diff.append("$-$" + f"{-v:.3f}"[1:] if v < 0 else ("+" + f"{v:.3f}"[1:] if v > 0 else ".000"))
+        diff.append("$-$" + f"{-v:.3f}"[1:] if v < 0 else "+" + f"{v:.3f}"[1:])
     lines.insert(1, r"\quad $\Delta$ vs.\ best alternative & " + " & ".join(diff) + r"\\")
     head = " & " + " & ".join(r"\multicolumn{3}{c}{" + lab + "}" for lab in (r"\texttt{gpt-5-nano} judges", "Claude Haiku 5.5 judges")) + r"\\"
     return (r"\begin{table}[t]" "\n" r"\centering" "\n"
@@ -126,7 +127,7 @@ def data_table() -> str:
         for key in ("hospital", "flights", "beers", "rayyan", "movies_1", "tax"):
             if line.startswith(NAME[key] + " &"):
                 r = R[key]
-                line = line[:-2] + f" & {r['P_keep_profilers']:.2f} & {f3(r['expected_F1_routed'])}" + r"\\"
+                line = line[:-2] + f" & {f3(r['P_keep_profilers'])} & {f3(r['expected_F1_routed'])}" + r"\\"
         out.append(line)
     t = "\n".join(out)
     t = t.replace(r"\begin{tabular}{@{}lrcccccc@{}}", r"\begin{tabular}{@{}lrcccccccc@{}}")
@@ -134,8 +135,22 @@ def data_table() -> str:
                   r"Table & Rows & Cols & Err. & C/M/F & Cons. & Ours & RAHA & Keep & Routed\\")
     t = t.replace(r"\setlength{\tabcolsep}{2.4pt}", r"\setlength{\tabcolsep}{3pt}")
     t = t.replace(r"--: fewer than 1\% format errors.}",
-                  r"--: format errors below 1\%. Keep: probability that the 20-tuple check of "
+                  r"--: too few format errors. Keep: probability that the 20-tuple check of "
                   r"Sect.~\ref{sec:taxonomy} keeps the label-free detector; Routed: expected F1 after the check.}")
+    return t
+
+
+def polish(t: str) -> str:
+    """Springer style: bold marks best values only; SD; spaced intervals; one decimal style."""
+    t = t.replace(r"\textbf{AutoCSV-LED} (cell detector)", "AutoCSV-LED (cell detector)")
+    t = t.replace(r"\textbf{AutoCSV-LED}, whole table", "AutoCSV-LED, whole table")
+    t = t.replace(r"\textbf{AutoCSV-LED} &", "AutoCSV-LED &")
+    t = t.replace("Best F1 per dataset", "Best F1 per table")
+    t = t.replace("F1 population standard deviations", "F1 SDs")
+    t = t.replace(r"Mean$\pm$population sd over three seeds", r"Mean$\pm$SD over three seeds")
+    t = re.sub(r"\[(\.\d{3}),(\.\d{3})\]", r"[\1, \2]", t)
+    t = t.replace(r"Variant & Hosp. & Flights", r"Variant & Hospital & Flights")
+    t = re.sub(r"& 0\.(\d{3}) & (\d+/\d+/\d+)", r"& .\1 & \2", t)   # Err. column of Table 1
     return t
 
 
@@ -148,4 +163,6 @@ if __name__ == "__main__":
     (OUT / "tab_data.tex").write_text(data_table(), encoding="utf-8")
     (OUT / "tab_models.tex").write_text(models_table(), encoding="utf-8")
     (OUT / "tab_fusion.tex").write_text(fusion_table(), encoding="utf-8")
+    for f in OUT.glob("tab_*.tex"):
+        f.write_text(polish(f.read_text(encoding="utf-8")), encoding="utf-8")
     print("tables written to", OUT)

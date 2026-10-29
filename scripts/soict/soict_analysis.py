@@ -198,6 +198,16 @@ def main() -> None:
             res["aggregators"][ds][name] = A
             print(ds, name, json.dumps(M, default=float)[:300], "\n   agg", {k: (round(v, 3) if isinstance(v, float) else v) for k, v in A.items() if not k.startswith("_ds")}, flush=True)
 
+        # R1b: does the ignorance m(Omega) mark rows whose score is unreliable? (gpt-5-nano judges)
+        llm = load_llm_evidence(RUNS / f"auto_{ds}_test_full" / "per_sample.jsonl", n, b.columns)
+        row = fuse(ev, P.FAMILY, llm, rule="family", use_llm=True)["row"]
+        y = b.errors[t_all].any(1)
+        om, s = row.m_omega[t_all], row.score[t_all]
+        hi = om >= np.quantile(om, 0.75)
+        res.setdefault("ignorance", {})[ds] = {"q75": float(np.quantile(om, 0.75)),
+                                               "auroc_top_quarter": auc(y[hi], s[hi]), "auroc_rest": auc(y[~hi], s[~hi])}
+        print(ds, "ignorance", res["ignorance"][ds], flush=True)
+
         # three judges' families together (rows covered by all three)
         runs = [RUNS / p.format(ds=ds) / "per_sample.jsonl" for p in LLMS.values()]
         if all(r.exists() for r in runs):
