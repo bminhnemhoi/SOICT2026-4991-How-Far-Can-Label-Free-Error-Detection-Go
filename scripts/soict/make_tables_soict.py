@@ -49,8 +49,8 @@ def cell_table() -> str:
                   r"\multicolumn{13}{@{}l}{\emph{Whole tables (other systems: F1 as reported by their authors)}}")
     t = t.replace(r"\multicolumn{13}{l}{", r"\multicolumn{13}{@{}l}{")
     t = t.replace(".}\n\\label{tab:cell}",
-                  r". $^{b}$Uses 20 labeled tuples, GPT-4 Turbo, and fine-tuned RoBERTa/Mistral-7B; its Hospital "
-                  r"errors are injected by the authors.}" "\n" r"\label{tab:cell}")
+                  r". $^{b}$Uses 20 labeled tuples, GPT-4~Turbo, and fine-tuned RoBERTa/Mistral-7B; its Hospital "
+                  r"errors are author-injected.}" "\n" r"\label{tab:cell}")
     return t
 
 
@@ -147,9 +147,11 @@ def polish(t: str) -> str:
     t = t.replace(r"\textbf{AutoCSV-LED} (cell detector)", "AutoCSV-LED (cell detector)")
     t = t.replace(r"\textbf{AutoCSV-LED}, whole table", "AutoCSV-LED, whole table")
     t = t.replace(r"\textbf{AutoCSV-LED} &", "AutoCSV-LED &")
-    t = t.replace("Best F1 per dataset", "Best F1 per table")
-    t = t.replace("F1 population standard deviations", "F1 SDs")
-    t = t.replace(r"Mean$\pm$population sd over three seeds", r"Mean$\pm$SD over three seeds")
+    t = t.replace("Best F1 per dataset among methods evaluated on the same rows in bold.", "Bold: best F1 per table among methods evaluated on the same rows.")
+    t = t.replace("(mean of 5 fold seeds)", "(mean of five seeds)")
+    t = t.replace("most frequent shape (Cons.)", "most frequent shape (Cons., \\%)")
+    t = t.replace("F1 population standard deviations", "F1 population SDs")
+    t = t.replace(r"Mean$\pm$population sd over three seeds", r"Mean$\pm$population SD, three seeds")
     t = re.sub(r"\[(\.\d{3}),(\.\d{3})\]", r"[\1, \2]", t)
     t = t.replace(r"Variant & Hosp. & Flights", r"Variant & Hospital & Flights")
     t = re.sub(r"& 0\.(\d{3}) & (\d+/\d+/\d+)", r"& .\1 & \2", t)   # Err. column of Table 1
@@ -159,7 +161,7 @@ def polish(t: str) -> str:
 if __name__ == "__main__":
     (OUT / "tab_cell.tex").write_text(cell_table(), encoding="utf-8")
     (OUT / "tab_row.tex").write_text(llncs(MT.row_table()).replace(r"\setlength{\tabcolsep}{2.5pt}", r"\setlength{\tabcolsep}{4pt}")
-                                     .replace("(Beers is omitted: every row is erroneous).", "(Beers is omitted: every row is erroneous). Best value in bold."),
+                                     .replace("(Beers is omitted: every row is erroneous).", "(Beers omitted: no clean rows). Bold: best value."),
                                      encoding="utf-8")
     (OUT / "tab_ablation.tex").write_text(llncs(MT.ablation_table()), encoding="utf-8")
     (OUT / "tab_data.tex").write_text(data_table(), encoding="utf-8")
