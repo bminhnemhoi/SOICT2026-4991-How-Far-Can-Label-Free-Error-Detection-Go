@@ -4,35 +4,44 @@
 **Tác giả liên hệ (duy nhất):** Binh Minh Ngo — ngobinhminh.st@tdtu.edu.vn
 **Hạn chót:** **23:59 ngày 30/10/2026** cho cả camera-ready lẫn đăng ký và đóng phí. Thiếu một trong hai thì bài không vào kỷ yếu.
 
-## 1. Hai file phải upload (trong thư mục `1_UPLOAD_EASYCHAIR/`)
+## 1. Ba file cần upload (trong thư mục `1_UPLOAD_EASYCHAIR/`)
 
-| Ô trên EasyChair | File | Ghi chú |
-|---|---|---|
-| **File A: PDF bài báo** | `4991.pdf` | {pages} trang, Springer CCIS (LLNCS), {pdf_kb} KB, SHA-256 bắt đầu `{pdf_sha}` |
-| **File B: ZIP** | `4991.zip` | {zip_kb} KB, SHA-256 bắt đầu `{zip_sha}` |
+| Ô trên trang EasyChair "Update or Upload Files for Paper 4991" | File |
+|---|---|
+| **Zip file** | `4991.zip` ({zip_kb} KB, SHA-256 bắt đầu `{zip_sha}`) |
+| **PDF file** | `4991.pdf` ({pages} trang, {pdf_kb} KB, SHA-256 bắt đầu `{pdf_sha}`) |
+| **Signed copyright form** | `4991_Licence_to_Publish_signed.pdf` |
 
-Nội dung `4991.zip`, đúng 3 thành phần ban tổ chức yêu cầu:
+`4991.zip` đáp ứng cả hai yêu cầu:
+- **EasyChair:** file `main.tex` nằm ở **thư mục gốc** của ZIP, vì EasyChair biên dịch từ đó.
+- **SOICT:** có **thư mục `Source/`** chứa đủ mã nguồn, kèm `Corresponding_Author.txt` và Licence đã ký.
+
+Đã mô phỏng EasyChair (`pdflatex` → `bibtex` → `pdflatex` ×2) cả ở thư mục gốc lẫn trong `Source/`: 0 lỗi, {pages} trang, cho ra đúng file PDF nộp.
+
+Danh sách file trong ZIP:
 {listing}
 
-- Thư mục `Source/` chứa đủ file để biên dịch lại ra đúng PDF; đã thử biên dịch lại và kiểm tra.
-- `Corresponding_Author.txt` ghi tên bài, họ tên và email của tác giả liên hệ duy nhất.
-- `4991_Licence_to_Publish_signed.pdf` là mẫu Licence **bản mới (Springer Nature Singapore)**, đã điền đủ và ký.
+## 2. Điền form EasyChair từng ô (theo ảnh chụp)
 
-**Không upload** file nào ngoài hai file trên. Các file trong `3_HO_SO_LUU/` chỉ để lưu trữ.
+1. Mở https://easychair.org/conferences/?conf=soict2026 → **My Papers** → bài **4991** → **Update or Upload Files**.
+2. Dùng **khung bên trái "Paper Prepared Using LaTeX"**. **Không** điền khung "Microsoft Word" bên phải.
+3. Điền các ô:
+   - **Zip file:** bấm *Chọn tệp* → `1_UPLOAD_EASYCHAIR/4991.zip`
+   - **PDF file:** bấm *Chọn tệp* → `1_UPLOAD_EASYCHAIR/4991.pdf`
+   - **Signed copyright form:** bấm *Chọn tệp* → `1_UPLOAD_EASYCHAIR/4991_Licence_to_Publish_signed.pdf`
+   - **Name of the main LaTeX file:** gõ đúng `main.tex`
+   - **Program to process the main file:** `pdflatex` (giữ nguyên mặc định)
+   - **Program to process the bibliography:** `bibtex` (giữ nguyên mặc định)
+4. Bấm nút đỏ **Submit a New Version** ở khung bên trái.
+5. Nếu EasyChair báo lỗi biên dịch, chụp màn hình gửi lại để xử lý. Không tự sửa file.
+6. **Kiểm tra lại:** vào lại trang bài 4991, tải từng file về mở thử. PDF phải {pages} trang, có dấu ✉ cạnh tên.
+7. Sửa thông tin tác giả cho khớp với bài:
+   - tên là **Binh Minh Ngo** (*First name* Binh Minh, *Last name* Ngo);
+   - email là **ngobinhminh.st@tdtu.edu.vn**.
 
-## 2. Các bước upload trên EasyChair
-
-1. Vào EasyChair SOICT 2026 (https://easychair.org/conferences/?conf=soict2026) và đăng nhập bằng tài khoản đã nộp bài.
-2. Chọn vai trò **proceedings author** của *SOICT 2026 Proceedings*. Nếu không thấy vai trò này, xem mục 5.
-3. Mở **đúng entry của bài 4991**. **Không tạo submission mới.**
-4. Chọn mục upload hoặc cập nhật file của bài:
-   - ô **PDF**: chọn `1_UPLOAD_EASYCHAIR/4991.pdf`;
-   - ô **source / ZIP**: chọn `1_UPLOAD_EASYCHAIR/4991.zip`.
-5. Bấm nút submit/save ở cuối trang.
-6. **Kiểm tra lại:** mở lại danh sách file của bài và tải từng file về mở thử. PDF phải có {pages} trang, đúng tiêu đề, có dấu ✉ cạnh tên. ZIP phải có `Source/`, file txt và Licence.
-7. Kiểm tra thông tin trong EasyChair: tên tác giả là **Binh Minh Ngo**, email tác giả là **ngobinhminh.st@tdtu.edu.vn**, tiêu đề đúng như trên. Nếu EasyChair yêu cầu nhập lại tóm tắt hay từ khoá, dán từ `2_THONG_TIN_EASYCHAIR/EasyChair_metadata.txt`.
-   - ⚠️ EasyChair đang ghi tên **"Bình Minh Ngô"** (có dấu), còn bài, Licence và file txt ghi **"Binh Minh Ngo"**. Springer lấy tên tác giả từ EasyChair, nên hãy sửa tên trong EasyChair thành *First name: Binh Minh*, *Last name: Ngo* cho khớp.
-   - ⚠️ Licence trong ZIP dùng **ảnh chữ ký**, trong khi quy định chính thức ghi *"Digital signatures are not accepted"*. Bạn đã xác nhận ban tổ chức đồng ý. Nếu họ vẫn yêu cầu ký tay: in `3_HO_SO_LUU/4991_Licence_to_Publish_prefilled_PRINT.pdf` (mọi ô đã điền sẵn), ký bằng mực ở trang 5, scan cả 6 trang thành một file PDF, thay file Licence trong ZIP, rồi upload lại.
+   Nếu EasyChair hỏi tóm tắt hoặc từ khoá, dán từ `2_THONG_TIN_EASYCHAIR/EasyChair_metadata.txt`.
+   - ⚠️ EasyChair đang ghi **"Bình Minh Ngô"** (có dấu). Springer lấy tên từ EasyChair, nên hãy sửa cho khớp với bài.
+   - ⚠️ Licence dùng **ảnh chữ ký**, trong khi quy định chính thức ghi *"Digital signatures are not accepted"*. Bạn đã xác nhận ban tổ chức đồng ý. Nếu họ vẫn yêu cầu ký tay: in `3_HO_SO_LUU/4991_Licence_to_Publish_prefilled_PRINT.pdf`, ký bằng mực ở trang 5, scan cả 6 trang thành PDF, rồi upload lại vào ô *Signed copyright form*.
 
 ## 3. Đăng ký và đóng phí (bắt buộc, cùng hạn 30/10)
 

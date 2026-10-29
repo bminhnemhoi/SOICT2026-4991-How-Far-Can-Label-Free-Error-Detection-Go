@@ -55,13 +55,16 @@ def main() -> int:
         print(f"Missing {SIGNED.name}: scan the ink-signed licence to this path, or use --draft.")
         return 2
     zpath = OUTDIR / ("4991_DRAFT_without_licence.zip" if args.draft and not SIGNED.exists() else "4991.zip")
+    # SOICT asks for a folder named "Source"; EasyChair compiles main.tex from the archive's top
+    # directory (its main-file field may not contain "/"). The source set is therefore stored twice.
     with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
-        for name in SOURCE_FILES:
-            z.write(SRC / name, f"Source/{name}")
-        for sub in ("figures", "tables"):
-            for f in sorted((SRC / sub).iterdir()):
-                if f.suffix in (".tex", ".pdf"):
-                    z.write(f, f"Source/{sub}/{f.name}")
+        for prefix in ("", "Source/"):
+            for name in SOURCE_FILES:
+                z.write(SRC / name, f"{prefix}{name}")
+            for sub in ("figures", "tables"):
+                for f in sorted((SRC / sub).iterdir()):
+                    if f.suffix in (".tex", ".pdf"):
+                        z.write(f, f"{prefix}{sub}/{f.name}")
         z.write(PKG / "Corresponding_Author.txt", "Corresponding_Author.txt")
         if SIGNED.exists():
             z.write(SIGNED, SIGNED.name)

@@ -49,6 +49,7 @@ def main() -> None:
 
     put(pdf, up / "4991.pdf")
     put(zp, up / "4991.zip")
+    put(PKG / "4991_Licence_to_Publish_signed.pdf", up / "4991_Licence_to_Publish_signed.pdf")
 
     tex = (SRC / "main.tex").read_text(encoding="utf-8")
     title = re.search(r"\\title\{(.*?)\}\n", tex).group(1)
