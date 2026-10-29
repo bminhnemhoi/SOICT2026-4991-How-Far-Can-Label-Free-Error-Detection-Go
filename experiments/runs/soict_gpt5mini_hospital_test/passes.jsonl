@@ -1,0 +1,1 @@
+{"ds": "hospital", "split": "test", "provider": "openai", "model": "gpt-5-mini", "rows_this_pass": 600, "expert_fallbacks": 0, "tokens_in": 3028904, "tokens_out": 231783, "seconds": 226.3}

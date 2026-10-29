@@ -1,0 +1,1 @@
+{"ds": "flights", "split": "test", "provider": "openai", "model": "gpt-5-mini", "rows_this_pass": 1426, "expert_fallbacks": 0, "tokens_in": 5175621, "tokens_out": 581315, "seconds": 531.0}

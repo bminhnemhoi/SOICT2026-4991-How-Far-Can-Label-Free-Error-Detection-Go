@@ -20,7 +20,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 f3 = MT.f3
 DSR = ["hospital", "flights", "rayyan"]
 NAME = MT.NAME | {"movies_1": r"Movies$^{\dagger}$", "tax": r"Tax$^{\dagger}$"}
-MODELS = [("gpt-5-nano", "gpt-5-nano"), ("gpt-5-mini", "gpt-5-mini"), ("claude-haiku-5-5", "Claude Haiku 5.5")]
+MODELS = [("gpt-5-nano", r"\texttt{gpt-5-nano}"), ("gpt-5-mini", r"\texttt{gpt-5-mini}"), ("claude-haiku-5-5", "Claude Haiku 5.5")]
 
 # Detection F1 reported by the GIDCL authors (Table 3 of their full version); 20 labeled tuples,
 # GPT-4-turbo plus fine-tuned RoBERTa/Mistral-7B; Hospital uses their own injected errors.
@@ -64,13 +64,14 @@ def models_table() -> str:
             lo = M["gain_vs_profilers"]["CI"][0]
             sig = "" if lo > 0 else "$^{\circ}$"
             cells += [f3(M["judges_only"]), f3(M["fused"]) + star,
-                      f"{M['gain_vs_profilers']['diff']:+.3f}".replace("0.", ".") + sig]
+                      f"{M['gain_vs_profilers']['diff']:+.3f}".replace("0.", ".").replace("-", "$-$") + sig]
         rows.append(lab + " & " + " & ".join(cells) + r"\\")
     prof = " & ".join(f"\\multicolumn{{3}}{{c}}{{{f3(S['models'][d]['gpt-5-nano']['profilers'])}}}" for d in DSR)
     return (r"\begin{table}[t]" "\n" r"\centering" "\n"
             r"\caption{Row-level AUROC on the test rows with judges from different models: judges only (J), "
-            r"fused with the profilers (Fused), and the gain $\Delta$ of the fusion over the profilers alone; every 95\% "
-            r"paired bootstrap interval of $\Delta$ excludes zero. Prompts and fusion are unchanged.}" "\n"
+            r"fused with the profilers (Fused), and the gain $\Delta$ of the fusion over the profilers alone. "
+            r"$^{\circ}$The 95\% paired bootstrap interval of $\Delta$ includes zero; all other intervals exclude it. "
+            r"Prompts and fusion are unchanged.}" "\n"
             r"\label{tab:models}" "\n" r"\scriptsize" "\n" r"\setlength{\tabcolsep}{2.2pt}" "\n"
             r"\begin{tabular}{@{}l" + "ccc" * 3 + r"@{}}" "\n" r"\toprule" "\n"
             + " & " + " & ".join(r"\multicolumn{3}{c}{" + MT.NAME[d] + "}" for d in DSR) + r"\\" "\n"
@@ -102,9 +103,10 @@ def fusion_table() -> str:
     diff = []
     for d, m in cols:
         dd = S["aggregators"][d][m]["_ds_vs_best_simple"]
-        diff.append(f"{dd['diff']:+.3f}".replace("0.", "."))
+        v = round(dd["diff"], 3)
+        diff.append("$-$" + f"{-v:.3f}"[1:] if v < 0 else ("+" + f"{v:.3f}"[1:] if v > 0 else ".000"))
     lines.insert(1, r"\quad $\Delta$ vs.\ best alternative & " + " & ".join(diff) + r"\\")
-    head = " & " + " & ".join(r"\multicolumn{3}{c}{" + lab + "}" for lab in ("gpt-5-nano judges", "Claude Haiku 5.5 judges")) + r"\\"
+    head = " & " + " & ".join(r"\multicolumn{3}{c}{" + lab + "}" for lab in (r"\texttt{gpt-5-nano} judges", "Claude Haiku 5.5 judges")) + r"\\"
     return (r"\begin{table}[t]" "\n" r"\centering" "\n"
             r"\caption{Row-level AUROC of different ways to combine the same inputs (profiler support and the two judges' "
             r"error probabilities) on the test rows. Best label-free value in bold. $^{a}$Supervised reference: 5-fold "
@@ -132,14 +134,16 @@ def data_table() -> str:
                   r"Table & Rows & Cols & Err. & C/M/F & Cons. & Ours & RAHA & Keep & Routed\\")
     t = t.replace(r"\setlength{\tabcolsep}{2.4pt}", r"\setlength{\tabcolsep}{3pt}")
     t = t.replace(r"--: fewer than 1\% format errors.}",
-                  r"--: fewer than 1\% format errors. Keep: probability that the 20-tuple check of "
+                  r"--: format errors below 1\%. Keep: probability that the 20-tuple check of "
                   r"Sect.~\ref{sec:taxonomy} keeps the label-free detector; Routed: expected F1 after the check.}")
     return t
 
 
 if __name__ == "__main__":
     (OUT / "tab_cell.tex").write_text(cell_table(), encoding="utf-8")
-    (OUT / "tab_row.tex").write_text(llncs(MT.row_table()).replace(r"\setlength{\tabcolsep}{2.5pt}", r"\setlength{\tabcolsep}{4pt}"), encoding="utf-8")
+    (OUT / "tab_row.tex").write_text(llncs(MT.row_table()).replace(r"\setlength{\tabcolsep}{2.5pt}", r"\setlength{\tabcolsep}{4pt}")
+                                     .replace("(Beers is omitted: every row is erroneous).", "(Beers is omitted: every row is erroneous). Best value in bold."),
+                                     encoding="utf-8")
     (OUT / "tab_ablation.tex").write_text(llncs(MT.ablation_table()), encoding="utf-8")
     (OUT / "tab_data.tex").write_text(data_table(), encoding="utf-8")
     (OUT / "tab_models.tex").write_text(models_table(), encoding="utf-8")
