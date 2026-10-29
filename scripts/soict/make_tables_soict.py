@@ -18,6 +18,7 @@ import make_tables as MT  # noqa: E402
 S = json.loads((ROOT / "experiments" / "soict2026" / "soict_results.json").read_text(encoding="utf-8"))
 OUT = ROOT / "SOICT2026" / "camera_ready" / "tables"
 OUT.mkdir(parents=True, exist_ok=True)
+MT.f3 = lambda x: f"{x:.3f}" if x >= 1 else f"{x:.3f}".replace("0.", ".", 1)
 f3 = MT.f3
 DSR = ["hospital", "flights", "rayyan"]
 NAME = MT.NAME | {"movies_1": r"Movies$^{\dagger}$", "tax": r"Tax$^{\dagger}$"}
@@ -44,8 +45,9 @@ def cell_table() -> str:
     t = t.replace("\\footnotesize\n\\setlength{\\tabcolsep}{4.2pt}", "\\scriptsize\n\\setlength{\\tabcolsep}{2.3pt}")
     gidcl = "GIDCL~\\cite{gidcl}$^{b}$ & & & " + " & & & ".join(f"{GIDCL[d]:.2f}"[1:] for d in MT.DS) + r"\\"
     t = t.replace(r"ZeroED~\cite{zeroed}", gidcl + "\n" + r"ZeroED~\cite{zeroed}")
-    t = t.replace(r"\emph{Whole tables, F1 as reported by the authors (other LLMs and protocols)}",
-                  r"\emph{Whole tables, F1 as reported by the authors (other models and protocols)}")
+    t = t.replace(r"\multicolumn{13}{l}{\emph{Whole tables, F1 as reported by the authors (other LLMs and protocols)}}",
+                  r"\multicolumn{13}{@{}l}{\emph{Whole tables (other systems: F1 as reported by their authors)}}")
+    t = t.replace(r"\multicolumn{13}{l}{", r"\multicolumn{13}{@{}l}{")
     t = t.replace(".}\n\\label{tab:cell}",
                   r". $^{b}$Uses 20 labeled tuples, GPT-4 Turbo, and fine-tuned RoBERTa/Mistral-7B; its Hospital "
                   r"errors are injected by the authors.}" "\n" r"\label{tab:cell}")
@@ -73,8 +75,8 @@ def models_table() -> str:
             r"fused with the profilers (Fused), and the gain $\Delta$ of the fusion over the profilers alone. "
             r"$^{\circ}$The 95\% paired bootstrap interval of $\Delta$ includes zero; all other intervals exclude it. "
             r"Prompts and fusion are unchanged; $\Delta$ is computed before rounding.}" "\n"
-            r"\label{tab:models}" "\n" r"\scriptsize" "\n" r"\setlength{\tabcolsep}{2.2pt}" "\n"
-            r"\begin{tabular}{@{}l" + "ccc" * 3 + r"@{}}" "\n" r"\toprule" "\n"
+            r"\label{tab:models}" "\n" r"\footnotesize" "\n" r"\setlength{\tabcolsep}{2.4pt}" "\n"
+            r"\begin{tabular}{@{}lccc@{\hspace{6pt}}ccc@{\hspace{6pt}}ccc@{}}" "\n" r"\toprule" "\n"
             + " & " + " & ".join(r"\multicolumn{3}{c}{" + MT.NAME[d] + "}" for d in DSR) + r"\\" "\n"
             + "".join(r"\cmidrule(lr){" + f"{2 + 3 * i}-{4 + 3 * i}" + "}" for i in range(3)) + "\n"
             + "Judge model & " + " & ".join(["J", "Fused", r"$\Delta$"] * 3) + r"\\" "\n" r"\midrule" "\n"
@@ -112,15 +114,15 @@ def fusion_table() -> str:
             r"\caption{Row-level AUROC of different ways to combine the same inputs (profiler support and the two judges' "
             r"error probabilities) on the test rows. Best label-free value in bold. $^{a}$Supervised reference: 5-fold "
             r"cross-fitted logistic regression on the weights of evidence, using the test labels (mean of 5 fold seeds). $\Delta$ is computed before rounding.}" "\n"
-            r"\label{tab:fusion}" "\n" r"\scriptsize" "\n" r"\setlength{\tabcolsep}{3pt}" "\n"
-            r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}" "\n" r"\toprule" "\n" + head + "\n"
+            r"\label{tab:fusion}" "\n" r"\footnotesize" "\n" r"\setlength{\tabcolsep}{3pt}" "\n"
+            r"\begin{tabular}{@{}lccc@{\hspace{8pt}}ccc@{}}" "\n" r"\toprule" "\n" + head + "\n"
             r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}" "\n"
             + "Combination & " + " & ".join(MT.NAME[d][:4] + "." if d == "hospital" else MT.NAME[d] for d, _ in cols)
             + r"\\" "\n" r"\midrule" "\n" + "\n".join(lines) + "\n" r"\bottomrule" "\n" r"\end{tabular}" "\n" r"\end{table}" "\n")
 
 
 def data_table() -> str:
-    t = llncs(MT.taxonomy_table())
+    t = llncs(MT.taxonomy_table()).replace(r"\begin{table}[t]", r"\begin{table}[tb]")
     R = S["routing"]
     out = []
     for line in t.split("\n"):
