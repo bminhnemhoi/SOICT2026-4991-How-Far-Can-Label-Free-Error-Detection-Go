@@ -1,0 +1,1 @@
+{"ds": "rayyan", "split": "test", "provider": "openai", "model": "ag/gemini-3.8-flash-low", "rows_this_pass": 600, "expert_fallbacks": 0, "tokens_in": 4900951, "tokens_out": 180985, "seconds": 339.8}

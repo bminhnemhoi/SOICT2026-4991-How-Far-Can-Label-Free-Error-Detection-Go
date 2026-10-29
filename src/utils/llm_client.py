@@ -201,7 +201,7 @@ class OpenAILLMClient:
         )
         self.cost.record(tokens_in, tokens_out, provider="openai", cache_hit=False)
         result = {
-            "content": content,
+            "content": _strip_fences(content),  # OpenAI-compatible routers may wrap JSON in ``` fences
             "tokens_in": tokens_in,
             "tokens_out": tokens_out,
             "cache_hit": False,
@@ -236,7 +236,8 @@ class OpenAILLMClient:
             kwargs["reasoning_effort"] = "minimal"
         else:
             kwargs["temperature"] = temperature
-            kwargs["max_tokens"] = max_tokens
+            # models behind an OpenAI-compatible router may think before answering
+            kwargs["max_tokens"] = max(max_tokens, 8192) if os.environ.get("OPENAI_BASE_URL") else max_tokens
         if seed is not None:
             kwargs["seed"] = seed
         if response_format_json:

@@ -1,0 +1,2 @@
+{"ds": "hospital", "split": "test", "provider": "openai", "model": "ag/gemini-3.8-flash-low", "rows_this_pass": 4, "expert_fallbacks": 0, "tokens_in": 35744, "tokens_out": 1049, "seconds": 9.4}
+{"ds": "hospital", "split": "test", "provider": "openai", "model": "ag/gemini-3.8-flash-low", "rows_this_pass": 596, "expert_fallbacks": 0, "tokens_in": 5929738, "tokens_out": 147725, "seconds": 368.7}

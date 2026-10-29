@@ -21,7 +21,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 f3 = MT.f3
 DSR = ["hospital", "flights", "rayyan"]
 NAME = MT.NAME | {"movies_1": r"Movies$^{\dagger}$", "tax": r"Tax$^{\dagger}$"}
-MODELS = [("gpt-5-nano", r"\texttt{gpt-5-nano}"), ("gpt-5-mini", r"\texttt{gpt-5-mini}"), ("claude-haiku-5-5", "Claude Haiku 5.5")]
+MODELS = [("gpt-5-nano", r"\texttt{gpt-5-nano}"), ("gpt-5-mini", r"\texttt{gpt-5-mini}"), ("claude-haiku-5-5", "Claude Haiku 5.5"), ("gemini-3.8-flash", "Gemini 3.8 Flash")]
 
 # Detection F1 reported by the GIDCL authors (Table 3 of their full version); 20 labeled tuples,
 # GPT-4-turbo plus fine-tuned RoBERTa/Mistral-7B; Hospital uses their own injected errors.
@@ -72,7 +72,7 @@ def models_table() -> str:
             r"\caption{Row-level AUROC on the test rows with judges from different models: judges only (J), "
             r"fused with the profilers (Fused), and the gain $\Delta$ of the fusion over the profilers alone. "
             r"$^{\circ}$The 95\% paired bootstrap interval of $\Delta$ includes zero; all other intervals exclude it. "
-            r"Prompts and fusion are unchanged.}" "\n"
+            r"Prompts and fusion are unchanged; $\Delta$ is computed before rounding.}" "\n"
             r"\label{tab:models}" "\n" r"\scriptsize" "\n" r"\setlength{\tabcolsep}{2.2pt}" "\n"
             r"\begin{tabular}{@{}l" + "ccc" * 3 + r"@{}}" "\n" r"\toprule" "\n"
             + " & " + " & ".join(r"\multicolumn{3}{c}{" + MT.NAME[d] + "}" for d in DSR) + r"\\" "\n"
@@ -111,7 +111,7 @@ def fusion_table() -> str:
     return (r"\begin{table}[t]" "\n" r"\centering" "\n"
             r"\caption{Row-level AUROC of different ways to combine the same inputs (profiler support and the two judges' "
             r"error probabilities) on the test rows. Best label-free value in bold. $^{a}$Supervised reference: 5-fold "
-            r"cross-fitted logistic regression on the weights of evidence, using the test labels (mean of 5 fold seeds).}" "\n"
+            r"cross-fitted logistic regression on the weights of evidence, using the test labels (mean of 5 fold seeds). $\Delta$ is computed before rounding.}" "\n"
             r"\label{tab:fusion}" "\n" r"\scriptsize" "\n" r"\setlength{\tabcolsep}{3pt}" "\n"
             r"\begin{tabular}{@{}l" + "c" * len(cols) + r"@{}}" "\n" r"\toprule" "\n" + head + "\n"
             r"\cmidrule(lr){2-4}\cmidrule(lr){5-7}" "\n"

@@ -1,0 +1,1 @@
+{"ds": "flights", "split": "test", "provider": "anthropic", "model": "claude-haiku-5-5", "rows_this_pass": 1426, "expert_fallbacks": 0, "tokens_in": 8148363, "tokens_out": 754865, "seconds": 470.3}

@@ -1,0 +1,1 @@
+{"ds": "flights", "split": "test", "provider": "openai", "model": "ag/gemini-3.8-flash-low", "rows_this_pass": 1426, "expert_fallbacks": 0, "tokens_in": 12246619, "tokens_out": 399548, "seconds": 835.4}

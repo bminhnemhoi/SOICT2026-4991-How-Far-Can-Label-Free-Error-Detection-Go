@@ -61,6 +61,8 @@ python scripts/soict/run_judges.py --ds flights  --split test --provider anthrop
 | `soict_gpt5nano_<table>_dev` | gpt-5-nano | dev rows (used to re-make the judge-related choices) |
 | `soict_gpt5mini_<table>_test` | gpt-5-mini | test rows of Hospital, Flights, Rayyan |
 | `soict_claudehaiku55_<table>_test` | Claude Haiku 5.5 | test rows of Hospital, Flights, Rayyan |
+| `soict_claudehaiku55_<table>_test_s43` | Claude Haiku 5.5 | second query with a new request seed (run-to-run variation) |
+| `soict_aggemini38flashlow_<table>_test` | Gemini 3.8 Flash (low thinking, via an OpenAI-compatible router) | test rows of Hospital, Flights, Rayyan |
 | `anollm_<table>_full` | gpt-5-nano | prompted LLM scorer baseline |
 
 ## License

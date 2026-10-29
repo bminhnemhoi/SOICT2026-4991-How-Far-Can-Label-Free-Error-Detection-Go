@@ -42,6 +42,10 @@ LLMS = {  # name -> run directory pattern for the test rows
     "claude-haiku-5-5": "soict_claudehaiku55_{ds}_test",
     "gpt-5-mini": "soict_gpt5mini_{ds}_test",
 }
+EXTRA_LLMS = {  # added later, analysed with a separate random stream
+    "gemini-3.8-flash": "soict_aggemini38flashlow_{ds}_test",
+    "qwen3.8-27b": "soict_LamngQwenQwen3827BFP8_{ds}_test",
+}
 STRENGTHS = {
     "excess max(0,2p-1)": excess_strength,
     "raw p": lambda p: p,
@@ -121,6 +125,7 @@ def stacking_cv(feat, y, seed=0):
 
 
 def main() -> None:
+    global rng
     OUT.mkdir(parents=True, exist_ok=True)
     res: dict = {"dev_choices": {}, "aggregators": {}, "models": {}, "routing": {}}
     for ds in ("hospital", "flights", "beers", "rayyan"):
@@ -260,6 +265,53 @@ def main() -> None:
                               "expected_F1_routed": float(picks.mean() * f_prof + (1 - picks.mean()) * raha),
                               "P_correct_choice": float(picks.mean() if f_prof >= raha else 1 - picks.mean())}
         print("routing", ds, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in res["routing"][ds].items()}, flush=True)
+
+    # ---------- R2 (extension): two more judge families and run-to-run variation ----------
+    # A separate random stream keeps every number above unchanged.
+    rng = np.random.default_rng(4991)
+    res["rerun"] = {}
+    for ds in ("hospital", "flights", "rayyan"):
+        b = load_benchmark(ds)
+        n, m = b.errors.shape
+        ev = P.run_profilers(b.dirty)
+        t_all = b.splits["test"]
+        for name, pat in EXTRA_LLMS.items():
+            run = RUNS / pat.format(ds=ds) / "per_sample.jsonl"
+            if not run.exists():
+                continue
+            t = np.intersect1d(t_all, covered_rows(run))
+            if len(t) < 100:
+                continue
+            y, g = b.errors[t].any(1), b.errors[t]
+            llm = load_llm_evidence(run, n, b.columns)
+            sc = row_scores(ev, llm)
+            jf = fuse({k: np.zeros_like(v) for k, v in ev.items()}, P.FAMILY, llm, rule="family")["cell"].m_err[t] >= 0.5
+            res["models"][ds][name] = {
+                "n_rows": int(len(t)), "complete": bool(len(t) == len(t_all)),
+                "judges_only": auc(y, sc["judges only (DS)"][t]),
+                "fused": auc(y, sc["DS fusion (ours)"][t]), "fused_CI": auc_ci(y, sc["DS fusion (ours)"][t]),
+                "profilers": auc(y, sc["profilers only"][t]),
+                "gain_vs_profilers": paired(y, sc["DS fusion (ours)"][t], sc["profilers only"][t]),
+                "gain_vs_judges": paired(y, sc["DS fusion (ours)"][t], sc["judges only (DS)"][t]),
+                "judge_field_cell_F1": prf(jf, g)["F1"],
+                "err_verdict_rate": float(np.mean([(llm.row_pos[a][t] > 0).mean() for a in llm.row_pos])),
+                **run_stats(run)}
+            print(ds, name, {k: v for k, v in res["models"][ds][name].items() if k in ("n_rows", "judges_only", "fused")}, flush=True)
+        # Claude Haiku 5.5 judges queried a second time (new request seed, no cache)
+        r1 = RUNS / f"soict_claudehaiku55_{ds}_test" / "per_sample.jsonl"
+        r2 = RUNS / f"soict_claudehaiku55_{ds}_test_s43" / "per_sample.jsonl"
+        if r2.exists():
+            t = np.intersect1d(t_all, covered_rows(r2))
+            if len(t) >= 100:
+                y = b.errors[t].any(1)
+                L1, L2 = load_llm_evidence(r1, n, b.columns), load_llm_evidence(r2, n, b.columns)
+                s1, s2 = row_scores(ev, L1), row_scores(ev, L2)
+                agree = float(np.mean([((L1.row_pos[a][t] > 0) == (L2.row_pos[a][t] > 0)).mean() for a in L1.row_pos]))
+                res["rerun"][ds] = {"n_rows": int(len(t)), "verdict_agreement": agree,
+                                    "judges_only": [auc(y, s1["judges only (DS)"][t]), auc(y, s2["judges only (DS)"][t])],
+                                    "fused": [auc(y, s1["DS fusion (ours)"][t]), auc(y, s2["DS fusion (ours)"][t])],
+                                    "fused_diff": paired(y, s2["DS fusion (ours)"][t], s1["DS fusion (ours)"][t])}
+                print(ds, "rerun", res["rerun"][ds], flush=True)
 
     (OUT / "soict_results.json").write_text(json.dumps(res, indent=2, default=float), encoding="utf-8")
 

@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import logging
 import sys
 import threading
@@ -41,7 +42,7 @@ RUNS = ROOT / "experiments" / "runs"
 
 
 def run_tag(model: str) -> str:
-    return model.replace(".", "").replace("-", "")
+    return re.sub(r"[^A-Za-z0-9]", "", model)
 
 
 def main() -> int:
@@ -52,6 +53,7 @@ def main() -> int:
     ap.add_argument("--model", default="gpt-5-nano")
     ap.add_argument("--workers", type=int, default=8)
     ap.add_argument("--limit", type=int, default=0, help="first N rows only (smoke test)")
+    ap.add_argument("--seed", type=int, default=None, help="request seed; a new seed gives an independent re-query")
     args = ap.parse_args()
     logging.basicConfig(level=logging.WARNING)
     load_dotenv(ROOT / ".env")  # does not override variables already set
@@ -71,7 +73,7 @@ def main() -> int:
 
     client = build_client(provider=args.provider, cost_tracker=CostTracker())
     a_cfg, e_cfg = cfg["method"]["agents"]["auditor"], cfg["method"]["agents"]["expert"]
-    seed = int(cfg.get("seed", 42))
+    seed = int(cfg.get("seed", 42)) if args.seed is None else args.seed
     auditor = AuditorAgent(client=client, model=args.model, temperature=0.0,
                            max_tokens=a_cfg.get("max_tokens", 1500), seed=seed, self_consistency_m=1,
                            prompt_path=f"prompts/{a_cfg['prompt']}.md")
@@ -80,7 +82,8 @@ def main() -> int:
                          prompt_path=e_cfg["prompt"])
     k = int(e_cfg.get("neighbor_k", 3))
 
-    out_dir = RUNS / f"soict_{run_tag(args.model)}_{args.ds}_{args.split}"
+    suffix = "" if args.seed is None else f"_s{args.seed}"
+    out_dir = RUNS / f"soict_{run_tag(args.model)}_{args.ds}_{args.split}{suffix}"
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / "per_sample.jsonl"
     done = set()
