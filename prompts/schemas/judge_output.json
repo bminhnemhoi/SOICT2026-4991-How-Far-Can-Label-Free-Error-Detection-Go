@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JudgeOutput",
+  "type": "object",
+  "required": ["decision_hint", "error_type", "suspicious_fields", "rationale"],
+  "additionalProperties": false,
+  "properties": {
+    "decision_hint": {"enum": ["error", "clean", "abstain"]},
+    "error_type": {
+      "enum": ["outlier", "fd_violation", "temporal_violation", "denial", "business_rule",
+               "missing", "pattern", "semantic", "none"]
+    },
+    "suspicious_fields": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "rationale": {"type": "string", "maxLength": 700}
+  }
+}

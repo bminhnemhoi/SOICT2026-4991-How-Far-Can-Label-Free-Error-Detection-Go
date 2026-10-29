@@ -1,0 +1,503 @@
+{
+  "dev_choices": {
+    "hospital": {
+      "n_dev": 200,
+      "row_prev": 0.425,
+      "strength_row_auroc": {
+        "excess max(0,2p-1)": 0.9938107416879796,
+        "raw p": 0.9937084398976983,
+        "verdict only (0.5)": 0.9872634271099745
+      },
+      "strength_row_auroc_test": {
+        "excess max(0,2p-1)": 0.9814793257589869,
+        "raw p": 0.9839704786738686,
+        "verdict only (0.5)": 0.9798030359471037
+      },
+      "cell_F1_profilers_only": 0.949771689497717,
+      "cell_F1_plus_judge_fields": 0.8392156862745098,
+      "cell_F1_judge_fields_only": 0.1794871794871795,
+      "row_auroc_dev": {
+        "DS fusion (ours)": 0.9938107416879796,
+        "profilers only": 0.977851662404092,
+        "judges only (DS)": 0.780306905370844
+      },
+      "row_auroc_dev_CI": {
+        "DS fusion (ours)": [
+          0.9836010669894326,
+          1.0
+        ]
+      },
+      "dev_gain_vs_profilers": {
+        "diff": 0.015959079283887512,
+        "CI": [
+          -0.0012102449276481186,
+          0.04662887718016245
+        ]
+      }
+    },
+    "flights": {
+      "n_dev": 475,
+      "row_prev": 0.8021052631578948,
+      "strength_row_auroc": {
+        "excess max(0,2p-1)": 0.845549226559446,
+        "raw p": 0.839769363935891,
+        "verdict only (0.5)": 0.8107025185681577
+      },
+      "strength_row_auroc_test": {
+        "excess max(0,2p-1)": 0.8983900441083806,
+        "raw p": 0.896830497794581,
+        "verdict only (0.5)": 0.872476370510397
+      },
+      "cell_F1_profilers_only": 0.6885906040268456,
+      "cell_F1_plus_judge_fields": 0.6882734236888627,
+      "cell_F1_judge_fields_only": 0.49626104690686607,
+      "row_auroc_dev": {
+        "DS fusion (ours)": 0.845549226559446,
+        "profilers only": 0.7635840732674374,
+        "judges only (DS)": 0.7926788406768304
+      },
+      "row_auroc_dev_CI": {
+        "DS fusion (ours)": [
+          0.7990045467522451,
+          0.8867801238849521
+        ]
+      },
+      "dev_gain_vs_profilers": {
+        "diff": 0.0819651532920086,
+        "CI": [
+          0.055072553414449554,
+          0.10955290461606956
+        ]
+      }
+    },
+    "beers": {
+      "n_dev": 482,
+      "row_prev": 1.0,
+      "strength_row_auroc": {},
+      "cell_F1_profilers_only": 0.9779036827195468,
+      "cell_F1_plus_judge_fields": 0.9090909090909092,
+      "cell_F1_judge_fields_only": 0.23665480427046262
+    },
+    "rayyan": {
+      "n_dev": 200,
+      "row_prev": 0.765,
+      "strength_row_auroc": {
+        "excess max(0,2p-1)": 0.4410374078709498,
+        "raw p": 0.47128354888054513,
+        "verdict only (0.5)": 0.40349047420386597
+      },
+      "strength_row_auroc_test": {
+        "excess max(0,2p-1)": 0.4736341078980634,
+        "raw p": 0.48611869723310286,
+        "verdict only (0.5)": 0.42822141419185694
+      },
+      "cell_F1_profilers_only": 0.038876889848812095,
+      "cell_F1_plus_judge_fields": 0.16929698708751795,
+      "cell_F1_judge_fields_only": 0.20664206642066418,
+      "row_auroc_dev": {
+        "DS fusion (ours)": 0.4410374078709498,
+        "profilers only": 0.34278959810874704,
+        "judges only (DS)": 0.6860659157279932
+      },
+      "row_auroc_dev_CI": {
+        "DS fusion (ours)": [
+          0.33299668609621064,
+          0.5560594097568977
+        ]
+      },
+      "dev_gain_vs_profilers": {
+        "diff": 0.09824780976220276,
+        "CI": [
+          0.056100091483194954,
+          0.1430434115661911
+        ]
+      }
+    }
+  },
+  "aggregators": {
+    "hospital": {
+      "gpt-5-nano": {
+        "DS fusion (ours)": 0.9814793257589869,
+        "mean": 0.9856467684857516,
+        "max": 0.9764329949711306,
+        "noisy-OR": 0.9830974110635127,
+        "rank average": 0.9277798472713726,
+        "stacking (5-fold, labels)": 0.9776355000931272,
+        "_best_simple": "mean",
+        "_ds_vs_best_simple": {
+          "diff": -0.004167442726764725,
+          "CI": [
+            -0.008095885386301852,
+            -0.0011899087639627526
+          ]
+        }
+      },
+      "claude-haiku-5-5": {
+        "DS fusion (ours)": 0.9948838238033153,
+        "mean": 0.9931202272303967,
+        "max": 0.9785399981374558,
+        "noisy-OR": 0.9945578785621157,
+        "rank average": 0.9684298752095362,
+        "stacking (5-fold, labels)": 0.9951341031849505,
+        "_best_simple": "noisy-OR",
+        "_ds_vs_best_simple": {
+          "diff": 0.0003259452411995545,
+          "CI": [
+            -0.0003444170506085642,
+            0.0010107467224651583
+          ]
+        }
+      },
+      "gpt-5-mini": {
+        "DS fusion (ours)": 0.9972644927536232,
+        "mean": 0.996856884057971,
+        "max": 0.9846829710144928,
+        "noisy-OR": 0.9982880434782608,
+        "rank average": 0.9798460144927537,
+        "stacking (5-fold, labels)": 0.9975380434782608,
+        "_best_simple": "noisy-OR",
+        "_ds_vs_best_simple": {
+          "diff": -0.0010235507246376674,
+          "CI": [
+            -0.002651130501947965,
+            0.00018777582536653445
+          ]
+        }
+      }
+    },
+    "flights": {
+      "gpt-5-nano": {
+        "DS fusion (ours)": 0.8983900441083806,
+        "mean": 0.8890973534971645,
+        "max": 0.8440406427221172,
+        "noisy-OR": 0.8956427221172023,
+        "rank average": 0.8786546943919343,
+        "stacking (5-fold, labels)": 0.8972741020793953,
+        "_best_simple": "noisy-OR",
+        "_ds_vs_best_simple": {
+          "diff": 0.002747321991178331,
+          "CI": [
+            -0.0008269520461474888,
+            0.007068548802188584
+          ]
+        }
+      },
+      "claude-haiku-5-5": {
+        "DS fusion (ours)": 0.9444470699432892,
+        "mean": 0.9278906742281032,
+        "max": 0.8921975425330811,
+        "noisy-OR": 0.9244391934467548,
+        "rank average": 0.9455907372400757,
+        "stacking (5-fold, labels)": 0.9521502835538753,
+        "_best_simple": "rank average",
+        "_ds_vs_best_simple": {
+          "diff": -0.0011436672967864991,
+          "CI": [
+            -0.008716495369566495,
+            0.006043525165123562
+          ]
+        }
+      }
+    },
+    "rayyan": {
+      "gpt-5-nano": {
+        "DS fusion (ours)": 0.4736341078980634,
+        "mean": 0.4802431373772999,
+        "max": 0.4553988046005712,
+        "noisy-OR": 0.4646608093135036,
+        "rank average": 0.5228467984831224,
+        "stacking (5-fold, labels)": 0.8039966291608796,
+        "_best_simple": "rank average",
+        "_ds_vs_best_simple": {
+          "diff": -0.04921269058505906,
+          "CI": [
+            -0.07737706647733204,
+            -0.021213743410056583
+          ]
+        }
+      },
+      "claude-haiku-5-5": {
+        "DS fusion (ours)": 0.44056555189687724,
+        "mean": 0.448290391547933,
+        "max": 0.4156587961734734,
+        "noisy-OR": 0.4512788901200081,
+        "rank average": 0.45128669298834245,
+        "stacking (5-fold, labels)": 0.6671187128388396,
+        "_best_simple": "rank average",
+        "_ds_vs_best_simple": {
+          "diff": -0.010721141091465214,
+          "CI": [
+            -0.038612185810681036,
+            0.020369403882053442
+          ]
+        }
+      }
+    }
+  },
+  "models": {
+    "hospital": {
+      "gpt-5-nano": {
+        "n_rows": 600,
+        "complete": true,
+        "judges_only": 0.7391623207301173,
+        "fused": 0.9814793257589869,
+        "fused_CI": [
+          0.9694795390949035,
+          0.9905676683716966
+        ],
+        "profilers": 0.968214518532315,
+        "gain_vs_profilers": {
+          "diff": 0.013264807226671893,
+          "CI": [
+            0.005425542366416775,
+            0.02284998910877586
+          ]
+        },
+        "gain_vs_judges": {
+          "diff": 0.24231700502886955,
+          "CI": [
+            0.20149787583217435,
+            0.2862296711681359
+          ]
+        },
+        "judge_field_cell_F1": 0.2511627906976744,
+        "err_verdict_rate": 0.17083333333333334
+      },
+      "claude-haiku-5-5": {
+        "n_rows": 600,
+        "complete": true,
+        "judges_only": 0.8898945334326692,
+        "fused": 0.9948838238033153,
+        "fused_CI": [
+          0.9911216272212011,
+          0.9976943516467451
+        ],
+        "profilers": 0.968214518532315,
+        "gain_vs_profilers": {
+          "diff": 0.02666930527100031,
+          "CI": [
+            0.013022967498603003,
+            0.041358075952220866
+          ]
+        },
+        "gain_vs_judges": {
+          "diff": 0.10498929037064608,
+          "CI": [
+            0.07905760648148139,
+            0.1335077181437037
+          ]
+        },
+        "judge_field_cell_F1": 0.5554335894621296,
+        "err_verdict_rate": 0.675,
+        "tokens_in": 4652493,
+        "tokens_out": 364697
+      },
+      "gpt-5-mini": {
+        "n_rows": 484,
+        "complete": false,
+        "judges_only": 0.901856884057971,
+        "fused": 0.9972644927536232,
+        "fused_CI": [
+          0.9948894599433157,
+          0.9989905163409841
+        ],
+        "profilers": 0.9685235507246379,
+        "gain_vs_profilers": {
+          "diff": 0.02874094202898525,
+          "CI": [
+            0.013909326936801119,
+            0.04731171673813027
+          ]
+        },
+        "gain_vs_judges": {
+          "diff": 0.09540760869565212,
+          "CI": [
+            0.06772046076807385,
+            0.1223914669191327
+          ]
+        },
+        "judge_field_cell_F1": 0.37848222862632086,
+        "err_verdict_rate": 0.4049586776859504,
+        "tokens_in": 2504617,
+        "tokens_out": 191005
+      },
+      "all judges": {
+        "n_rows": 498,
+        "fused": 0.9995234204793028,
+        "vs_gpt5nano": {
+          "diff": 0.019165305010893197,
+          "CI": [
+            0.009081178068906768,
+            0.03284512349392943
+          ]
+        }
+      }
+    },
+    "flights": {
+      "gpt-5-nano": {
+        "n_rows": 1426,
+        "complete": true,
+        "judges_only": 0.8567485822306238,
+        "fused": 0.8983900441083806,
+        "fused_CI": [
+          0.8809544782874458,
+          0.9155550739554668
+        ],
+        "profilers": 0.8288090737240075,
+        "gain_vs_profilers": {
+          "diff": 0.06958097038437316,
+          "CI": [
+            0.05593210177446867,
+            0.08464305736321355
+          ]
+        },
+        "gain_vs_judges": {
+          "diff": 0.04164146187775686,
+          "CI": [
+            0.023495722454807424,
+            0.06061099587656881
+          ]
+        },
+        "judge_field_cell_F1": 0.568799486411299,
+        "err_verdict_rate": 0.3579943899018233
+      },
+      "claude-haiku-5-5": {
+        "n_rows": 1426,
+        "complete": true,
+        "judges_only": 0.9409546313799623,
+        "fused": 0.9444470699432892,
+        "fused_CI": [
+          0.9311978642348634,
+          0.956957413687126
+        ],
+        "profilers": 0.8288090737240075,
+        "gain_vs_profilers": {
+          "diff": 0.11563799621928172,
+          "CI": [
+            0.10171188497533062,
+            0.1301626114973571
+          ]
+        },
+        "gain_vs_judges": {
+          "diff": 0.0034924385633269273,
+          "CI": [
+            -0.007796479182878846,
+            0.015986826931939757
+          ]
+        },
+        "judge_field_cell_F1": 0.319672131147541,
+        "err_verdict_rate": 0.34607293127629735,
+        "tokens_in": 8144767,
+        "tokens_out": 757422
+      }
+    },
+    "rayyan": {
+      "gpt-5-nano": {
+        "n_rows": 600,
+        "complete": true,
+        "judges_only": 0.6551990511712105,
+        "fused": 0.4736341078980634,
+        "fused_CI": [
+          0.41129512956530817,
+          0.5370701801312233
+        ],
+        "profilers": 0.37635574837310193,
+        "gain_vs_profilers": {
+          "diff": 0.09727835952496144,
+          "CI": [
+            0.07238999920467483,
+            0.12390556365463845
+          ]
+        },
+        "gain_vs_judges": {
+          "diff": -0.1815649432731471,
+          "CI": [
+            -0.22088751642784857,
+            -0.13907774364659695
+          ]
+        },
+        "judge_field_cell_F1": 0.15034482758620688,
+        "err_verdict_rate": 0.45583333333333337
+      },
+      "claude-haiku-5-5": {
+        "n_rows": 600,
+        "complete": true,
+        "judges_only": 0.5075765851527022,
+        "fused": 0.44056555189687724,
+        "fused_CI": [
+          0.3799917417827272,
+          0.5032070306183608
+        ],
+        "profilers": 0.37635574837310193,
+        "gain_vs_profilers": {
+          "diff": 0.06420980352377531,
+          "CI": [
+            0.037665864558137745,
+            0.09152297126685141
+          ]
+        },
+        "gain_vs_judges": {
+          "diff": -0.06701103325582497,
+          "CI": [
+            -0.1008439622831007,
+            -0.03325175213043228
+          ]
+        },
+        "judge_field_cell_F1": 0.2923709456372773,
+        "err_verdict_rate": 0.8266666666666667,
+        "tokens_in": 3170446,
+        "tokens_out": 372226
+      }
+    }
+  },
+  "routing": {
+    "hospital": {
+      "F1_profilers": 0.9488188976377951,
+      "F1_raha20": 0.6716074107727481,
+      "better": "profilers",
+      "P_keep_profilers": 1.0,
+      "expected_F1_routed": 0.9488188976377951,
+      "P_correct_choice": 1.0
+    },
+    "flights": {
+      "F1_profilers": 0.7059585492227979,
+      "F1_raha20": 0.827803837945488,
+      "better": "RAHA-20",
+      "P_keep_profilers": 0.995,
+      "expected_F1_routed": 0.7065677756664114,
+      "P_correct_choice": 0.0050000000000000044
+    },
+    "beers": {
+      "F1_profilers": 0.9739968616902039,
+      "F1_raha20": 0.9849236701780177,
+      "better": "RAHA-20",
+      "P_keep_profilers": 1.0,
+      "expected_F1_routed": 0.9739968616902039,
+      "P_correct_choice": 0.0
+    },
+    "rayyan": {
+      "F1_profilers": 0.06526406182911121,
+      "F1_raha20": 0.7574261815539964,
+      "better": "RAHA-20",
+      "P_keep_profilers": 0.0,
+      "expected_F1_routed": 0.7574261815539964,
+      "P_correct_choice": 1.0
+    },
+    "movies_1": {
+      "F1_profilers": 0.06250906453952139,
+      "F1_raha20": 0.8465606062654273,
+      "better": "RAHA-20",
+      "P_keep_profilers": 0.0,
+      "expected_F1_routed": 0.8465606062654273,
+      "P_correct_choice": 1.0
+    },
+    "tax": {
+      "F1_profilers": 0.07130446869136145,
+      "F1_raha20": 0.7506084606932211,
+      "better": "RAHA-20",
+      "P_keep_profilers": 0.0,
+      "expected_F1_routed": 0.7506084606932211,
+      "P_correct_choice": 1.0
+    }
+  }
+}

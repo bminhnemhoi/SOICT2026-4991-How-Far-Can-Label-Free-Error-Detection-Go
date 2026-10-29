@@ -1,0 +1,39 @@
+{
+  "run_id": "auto_beers_test_full",
+  "n_rows": 1446,
+  "n_commit": 820,
+  "coverage": 0.5670816044260027,
+  "abstain_rate": 0.43291839557399725,
+  "detection": {
+    "precision": 1.0,
+    "recall": 0.1329268292682927,
+    "f1": 0.23466092572658773,
+    "auc_pr": 1.0,
+    "auc_roc": NaN
+  },
+  "ece": 0.5666007624250402,
+  "brier": 0.3244268582024591,
+  "selective": {
+    "aurc": 0.9468179550913147,
+    "risk_at_cov_70": 0.8923125619452132,
+    "risk_at_cov_80": 0.9057743538323915,
+    "risk_at_cov_90": 0.9162436130178065,
+    "risk_at_cov_full": 0.9246196403872753
+  },
+  "cost": {
+    "tokens_in": 3015740,
+    "tokens_out": 319113,
+    "n_calls": 1486,
+    "n_cache_hits": 1452,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 3015740,
+        "tokens_out": 319113,
+        "n_calls": 1486,
+        "usd": 0.278432
+      }
+    },
+    "usd": 0.278432
+  },
+  "wall_clock_s": 3855.78
+}

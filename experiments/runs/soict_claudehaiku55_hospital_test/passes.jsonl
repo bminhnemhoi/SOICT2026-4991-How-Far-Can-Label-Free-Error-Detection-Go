@@ -1,0 +1,2 @@
+{"ds": "hospital", "split": "test", "provider": "anthropic", "model": "claude-haiku-5-5", "rows_this_pass": 3, "expert_fallbacks": 0, "tokens_in": 19227, "tokens_out": 1493, "seconds": 5.1}
+{"ds": "hospital", "split": "test", "provider": "anthropic", "model": "claude-haiku-5-5", "rows_this_pass": 597, "expert_fallbacks": 0, "tokens_in": 4633266, "tokens_out": 363204, "seconds": 226.6}

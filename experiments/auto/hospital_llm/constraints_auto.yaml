@@ -1,0 +1,2732 @@
+dataset: hospital_autoLLM
+version: auto-1
+source: scripts/auto_pipeline.py
+profile:
+  n_rows: 1000
+  n_cols: 19
+  columns:
+  - ProviderNumber
+  - HospitalName
+  - Address
+  - Address2
+  - Address3
+  - City
+  - State
+  - ZIP
+  - CountyName
+  - PhoneNumber
+  - HospitalType
+  - HospitalOwner
+  - EmergencyService
+  - Condition
+  - MeasureCode
+  - MeasureName
+  - Score
+  - Sample
+  - Stateavg
+  excluded_cols:
+  - y_true
+  - err_type
+  - row_id
+  - index
+  inferred_domain: US Hospital Quality
+counts:
+  stats: 9
+  fd: 182
+  llm: 7
+  total: 198
+constraints:
+- id: AUTO-PAT-ProviderNumber
+  type: pattern
+  nl: Column ProviderNumber values match character-class pattern ^\d{5}$.
+  formal:
+    column: ProviderNumber
+    regex: ^\d{5}$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_stats
+  inferred_from_top_n: 5
+- id: AUTO-DOM-Address2
+  type: domain
+  nl: Column Address2 should be one of 1 known values (e.g., ['empty']).
+  formal:
+    column: Address2
+    allowed:
+    - empty
+  severity: high
+  error_type_when_violated: domain_violation
+  source: auto_stats
+- id: AUTO-DOM-Address3
+  type: domain
+  nl: Column Address3 should be one of 1 known values (e.g., ['empty']).
+  formal:
+    column: Address3
+    allowed:
+    - empty
+  severity: high
+  error_type_when_violated: domain_violation
+  source: auto_stats
+- id: AUTO-DOM-State
+  type: domain
+  nl: Column State should be one of 4 known values (e.g., ['al', 'ak', 'xl', 'ax']).
+  formal:
+    column: State
+    allowed:
+    - al
+    - ak
+    - xl
+    - ax
+  severity: high
+  error_type_when_violated: domain_violation
+  source: auto_stats
+- id: AUTO-PAT-State
+  type: pattern
+  nl: Column State values match character-class pattern ^[a-z]{2}$.
+  formal:
+    column: State
+    regex: ^[a-z]{2}$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_stats
+  inferred_from_top_n: 4
+- id: AUTO-PAT-ZIP
+  type: pattern
+  nl: Column ZIP values match character-class pattern ^\d{5}$.
+  formal:
+    column: ZIP
+    regex: ^\d{5}$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_stats
+  inferred_from_top_n: 5
+- id: AUTO-PAT-PhoneNumber
+  type: pattern
+  nl: Column PhoneNumber values match character-class pattern ^\d{10}$.
+  formal:
+    column: PhoneNumber
+    regex: ^\d{10}$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_stats
+  inferred_from_top_n: 5
+- id: AUTO-DOM-HospitalType
+  type: domain
+  nl: Column HospitalType should be one of 13 known values (e.g., ['acute care hospitals',
+    'acuxe care hospixals', 'acutexcarexhospitals', 'acute care hosxitals', 'acutx
+    carx hospitals']).
+  formal:
+    column: HospitalType
+    allowed:
+    - acute care hospitals
+    - acuxe care hospixals
+    - acutexcarexhospitals
+    - acute care hosxitals
+    - acutx carx hospitals
+  severity: medium
+  error_type_when_violated: domain_violation
+  source: auto_stats
+- id: AUTO-DOM-EmergencyService
+  type: domain
+  nl: Column EmergencyService should be one of 6 known values (e.g., ['yes', 'no',
+    'yxs', 'yex', 'xes']).
+  formal:
+    column: EmergencyService
+    allowed:
+    - 'yes'
+    - 'no'
+    - yxs
+    - yex
+    - xes
+  severity: medium
+  error_type_when_violated: domain_violation
+  source: auto_stats
+- id: AUTO-FD-Address->HospitalName
+  type: functional_dependency
+  nl: Address determines HospitalName (soft-confidence 0.977).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.977
+  n_groups: 76
+- id: AUTO-FD-ProviderNumber->HospitalName
+  type: functional_dependency
+  nl: ProviderNumber determines HospitalName (soft-confidence 0.976).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 72
+- id: AUTO-FD-PhoneNumber->HospitalName
+  type: functional_dependency
+  nl: PhoneNumber determines HospitalName (soft-confidence 0.976).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 74
+- id: AUTO-FD-ZIP->HospitalName
+  type: functional_dependency
+  nl: ZIP determines HospitalName (soft-confidence 0.954).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.954
+  n_groups: 71
+- id: AUTO-FD-City->HospitalName
+  type: functional_dependency
+  nl: City determines HospitalName (soft-confidence 0.863).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.863
+  n_groups: 72
+- id: AUTO-FD-ProviderNumber+State->HospitalName
+  type: functional_dependency
+  nl: ProviderNumber + State determines HospitalName (soft-confidence 0.977).
+  formal:
+    lhs:
+    - ProviderNumber
+    - State
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.977
+  n_groups: 93
+- id: AUTO-FD-State+PhoneNumber->HospitalName
+  type: functional_dependency
+  nl: State + PhoneNumber determines HospitalName (soft-confidence 0.977).
+  formal:
+    lhs:
+    - State
+    - PhoneNumber
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.977
+  n_groups: 94
+- id: AUTO-FD-ZIP+PhoneNumber->HospitalName
+  type: functional_dependency
+  nl: ZIP + PhoneNumber determines HospitalName (soft-confidence 0.977).
+  formal:
+    lhs:
+    - ZIP
+    - PhoneNumber
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.977
+  n_groups: 101
+- id: AUTO-FD-State+ZIP->HospitalName
+  type: functional_dependency
+  nl: State + ZIP determines HospitalName (soft-confidence 0.955).
+  formal:
+    lhs:
+    - State
+    - ZIP
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.955
+  n_groups: 93
+- id: AUTO-FD-City+Condition->HospitalName
+  type: functional_dependency
+  nl: City + Condition determines HospitalName (soft-confidence 0.867).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - HospitalName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.867
+  n_groups: 213
+- id: AUTO-FD-HospitalName->Address
+  type: functional_dependency
+  nl: HospitalName determines Address (soft-confidence 0.970).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 69
+- id: AUTO-FD-PhoneNumber->Address
+  type: functional_dependency
+  nl: PhoneNumber determines Address (soft-confidence 0.970).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 74
+- id: AUTO-FD-ProviderNumber->Address
+  type: functional_dependency
+  nl: ProviderNumber determines Address (soft-confidence 0.969).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 72
+- id: AUTO-FD-ZIP->Address
+  type: functional_dependency
+  nl: ZIP determines Address (soft-confidence 0.946).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.946
+  n_groups: 71
+- id: AUTO-FD-City->Address
+  type: functional_dependency
+  nl: City determines Address (soft-confidence 0.857).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.857
+  n_groups: 72
+- id: AUTO-FD-HospitalName+Condition->Address
+  type: functional_dependency
+  nl: HospitalName + Condition determines Address (soft-confidence 0.971).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 224
+- id: AUTO-FD-PhoneNumber+Condition->Address
+  type: functional_dependency
+  nl: PhoneNumber + Condition determines Address (soft-confidence 0.971).
+  formal:
+    lhs:
+    - PhoneNumber
+    - Condition
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 230
+- id: AUTO-FD-ProviderNumber+Condition->Address
+  type: functional_dependency
+  nl: ProviderNumber + Condition determines Address (soft-confidence 0.970).
+  formal:
+    lhs:
+    - ProviderNumber
+    - Condition
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 225
+- id: AUTO-FD-ZIP+Condition->Address
+  type: functional_dependency
+  nl: ZIP + Condition determines Address (soft-confidence 0.948).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.948
+  n_groups: 224
+- id: AUTO-FD-City+Condition->Address
+  type: functional_dependency
+  nl: City + Condition determines Address (soft-confidence 0.862).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - Address
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.862
+  n_groups: 213
+- id: AUTO-FD-PhoneNumber->City
+  type: functional_dependency
+  nl: PhoneNumber determines City (soft-confidence 0.969).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 74
+- id: AUTO-FD-HospitalName->City
+  type: functional_dependency
+  nl: HospitalName determines City (soft-confidence 0.968).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 69
+- id: AUTO-FD-Address->City
+  type: functional_dependency
+  nl: Address determines City (soft-confidence 0.968).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 76
+- id: AUTO-FD-ProviderNumber->City
+  type: functional_dependency
+  nl: ProviderNumber determines City (soft-confidence 0.967).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.967
+  n_groups: 72
+- id: AUTO-FD-ZIP->City
+  type: functional_dependency
+  nl: ZIP determines City (soft-confidence 0.967).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.967
+  n_groups: 71
+- id: AUTO-FD-CountyName->City
+  type: functional_dependency
+  nl: CountyName determines City (soft-confidence 0.854).
+  formal:
+    lhs:
+    - CountyName
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.854
+  n_groups: 65
+- id: AUTO-FD-HospitalName+State->City
+  type: functional_dependency
+  nl: HospitalName + State determines City (soft-confidence 0.969).
+  formal:
+    lhs:
+    - HospitalName
+    - State
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 90
+- id: AUTO-FD-ProviderNumber+State->City
+  type: functional_dependency
+  nl: ProviderNumber + State determines City (soft-confidence 0.968).
+  formal:
+    lhs:
+    - ProviderNumber
+    - State
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 93
+- id: AUTO-FD-State+ZIP->City
+  type: functional_dependency
+  nl: State + ZIP determines City (soft-confidence 0.968).
+  formal:
+    lhs:
+    - State
+    - ZIP
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 93
+- id: AUTO-FD-ZIP+Condition->City
+  type: functional_dependency
+  nl: ZIP + Condition determines City (soft-confidence 0.968).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 224
+- id: AUTO-FD-CountyName+Condition->City
+  type: functional_dependency
+  nl: CountyName + Condition determines City (soft-confidence 0.863).
+  formal:
+    lhs:
+    - CountyName
+    - Condition
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.863
+  n_groups: 196
+- id: AUTO-FD-State+CountyName->City
+  type: functional_dependency
+  nl: State + CountyName determines City (soft-confidence 0.857).
+  formal:
+    lhs:
+    - State
+    - CountyName
+    rhs:
+    - City
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.857
+  n_groups: 85
+- id: AUTO-FD-PhoneNumber->State
+  type: functional_dependency
+  nl: PhoneNumber determines State (soft-confidence 0.976).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 74
+- id: AUTO-FD-ProviderNumber->State
+  type: functional_dependency
+  nl: ProviderNumber determines State (soft-confidence 0.975).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 72
+- id: AUTO-FD-HospitalName->State
+  type: functional_dependency
+  nl: HospitalName determines State (soft-confidence 0.975).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 69
+- id: AUTO-FD-City->State
+  type: functional_dependency
+  nl: City determines State (soft-confidence 0.975).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 72
+- id: AUTO-FD-Address->State
+  type: functional_dependency
+  nl: Address determines State (soft-confidence 0.974).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 76
+- id: AUTO-FD-ZIP->State
+  type: functional_dependency
+  nl: ZIP determines State (soft-confidence 0.974).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 71
+- id: AUTO-FD-CountyName->State
+  type: functional_dependency
+  nl: CountyName determines State (soft-confidence 0.974).
+  formal:
+    lhs:
+    - CountyName
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 65
+- id: AUTO-FD-HospitalOwner->State
+  type: functional_dependency
+  nl: HospitalOwner determines State (soft-confidence 0.955).
+  formal:
+    lhs:
+    - HospitalOwner
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.955
+  n_groups: 27
+- id: AUTO-FD-HospitalType->State
+  type: functional_dependency
+  nl: HospitalType determines State (soft-confidence 0.954).
+  formal:
+    lhs:
+    - HospitalType
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.954
+  n_groups: 13
+- id: AUTO-FD-EmergencyService->State
+  type: functional_dependency
+  nl: EmergencyService determines State (soft-confidence 0.954).
+  formal:
+    lhs:
+    - EmergencyService
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.954
+  n_groups: 6
+- id: AUTO-FD-MeasureCode->State
+  type: functional_dependency
+  nl: MeasureCode determines State (soft-confidence 0.954).
+  formal:
+    lhs:
+    - MeasureCode
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.954
+  n_groups: 54
+- id: AUTO-FD-Score->State
+  type: functional_dependency
+  nl: Score determines State (soft-confidence 0.954).
+  formal:
+    lhs:
+    - Score
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.954
+  n_groups: 69
+- id: AUTO-FD-HospitalOwner+Stateavg->State
+  type: functional_dependency
+  nl: HospitalOwner + Stateavg determines State (soft-confidence 0.980).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Stateavg
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.98
+  n_groups: 278
+- id: AUTO-FD-PhoneNumber+Condition->State
+  type: functional_dependency
+  nl: PhoneNumber + Condition determines State (soft-confidence 0.977).
+  formal:
+    lhs:
+    - PhoneNumber
+    - Condition
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.977
+  n_groups: 230
+- id: AUTO-FD-ProviderNumber+Condition->State
+  type: functional_dependency
+  nl: ProviderNumber + Condition determines State (soft-confidence 0.976).
+  formal:
+    lhs:
+    - ProviderNumber
+    - Condition
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 225
+- id: AUTO-FD-HospitalName+Condition->State
+  type: functional_dependency
+  nl: HospitalName + Condition determines State (soft-confidence 0.976).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 224
+- id: AUTO-FD-City+Condition->State
+  type: functional_dependency
+  nl: City + Condition determines State (soft-confidence 0.976).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 213
+- id: AUTO-FD-Address+Condition->State
+  type: functional_dependency
+  nl: Address + Condition determines State (soft-confidence 0.975).
+  formal:
+    lhs:
+    - Address
+    - Condition
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 230
+- id: AUTO-FD-ZIP+Condition->State
+  type: functional_dependency
+  nl: ZIP + Condition determines State (soft-confidence 0.975).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 224
+- id: AUTO-FD-CountyName+Condition->State
+  type: functional_dependency
+  nl: CountyName + Condition determines State (soft-confidence 0.975).
+  formal:
+    lhs:
+    - CountyName
+    - Condition
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 196
+- id: AUTO-FD-HospitalOwner+MeasureName->State
+  type: functional_dependency
+  nl: HospitalOwner + MeasureName determines State (soft-confidence 0.961).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureName
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.961
+  n_groups: 266
+- id: AUTO-FD-HospitalOwner+MeasureCode->State
+  type: functional_dependency
+  nl: HospitalOwner + MeasureCode determines State (soft-confidence 0.959).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureCode
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.959
+  n_groups: 259
+- id: AUTO-FD-HospitalOwner+Score->State
+  type: functional_dependency
+  nl: HospitalOwner + Score determines State (soft-confidence 0.958).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Score
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.958
+  n_groups: 244
+- id: AUTO-FD-EmergencyService+MeasureName->State
+  type: functional_dependency
+  nl: EmergencyService + MeasureName determines State (soft-confidence 0.957).
+  formal:
+    lhs:
+    - EmergencyService
+    - MeasureName
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.957
+  n_groups: 111
+- id: AUTO-FD-HospitalType+Score->State
+  type: functional_dependency
+  nl: HospitalType + Score determines State (soft-confidence 0.955).
+  formal:
+    lhs:
+    - HospitalType
+    - Score
+    rhs:
+    - State
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.955
+  n_groups: 95
+- id: AUTO-FD-HospitalName->ZIP
+  type: functional_dependency
+  nl: HospitalName determines ZIP (soft-confidence 0.971).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 69
+- id: AUTO-FD-ProviderNumber->ZIP
+  type: functional_dependency
+  nl: ProviderNumber determines ZIP (soft-confidence 0.970).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 72
+- id: AUTO-FD-Address->ZIP
+  type: functional_dependency
+  nl: Address determines ZIP (soft-confidence 0.970).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 76
+- id: AUTO-FD-PhoneNumber->ZIP
+  type: functional_dependency
+  nl: PhoneNumber determines ZIP (soft-confidence 0.970).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 74
+- id: AUTO-FD-City->ZIP
+  type: functional_dependency
+  nl: City determines ZIP (soft-confidence 0.882).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.882
+  n_groups: 72
+- id: AUTO-FD-HospitalName+Condition->ZIP
+  type: functional_dependency
+  nl: HospitalName + Condition determines ZIP (soft-confidence 0.973).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 224
+- id: AUTO-FD-ProviderNumber+Condition->ZIP
+  type: functional_dependency
+  nl: ProviderNumber + Condition determines ZIP (soft-confidence 0.972).
+  formal:
+    lhs:
+    - ProviderNumber
+    - Condition
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 225
+- id: AUTO-FD-Address+Condition->ZIP
+  type: functional_dependency
+  nl: Address + Condition determines ZIP (soft-confidence 0.972).
+  formal:
+    lhs:
+    - Address
+    - Condition
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 230
+- id: AUTO-FD-PhoneNumber+Condition->ZIP
+  type: functional_dependency
+  nl: PhoneNumber + Condition determines ZIP (soft-confidence 0.972).
+  formal:
+    lhs:
+    - PhoneNumber
+    - Condition
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 230
+- id: AUTO-FD-City+Condition->ZIP
+  type: functional_dependency
+  nl: City + Condition determines ZIP (soft-confidence 0.886).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - ZIP
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.886
+  n_groups: 213
+- id: AUTO-FD-City->CountyName
+  type: functional_dependency
+  nl: City determines CountyName (soft-confidence 0.964).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.964
+  n_groups: 72
+- id: AUTO-FD-HospitalName->CountyName
+  type: functional_dependency
+  nl: HospitalName determines CountyName (soft-confidence 0.962).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.962
+  n_groups: 69
+- id: AUTO-FD-Address->CountyName
+  type: functional_dependency
+  nl: Address determines CountyName (soft-confidence 0.962).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.962
+  n_groups: 76
+- id: AUTO-FD-ProviderNumber->CountyName
+  type: functional_dependency
+  nl: ProviderNumber determines CountyName (soft-confidence 0.961).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.961
+  n_groups: 72
+- id: AUTO-FD-ZIP->CountyName
+  type: functional_dependency
+  nl: ZIP determines CountyName (soft-confidence 0.961).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.961
+  n_groups: 71
+- id: AUTO-FD-PhoneNumber->CountyName
+  type: functional_dependency
+  nl: PhoneNumber determines CountyName (soft-confidence 0.961).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.961
+  n_groups: 74
+- id: AUTO-FD-City+Condition->CountyName
+  type: functional_dependency
+  nl: City + Condition determines CountyName (soft-confidence 0.965).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.965
+  n_groups: 213
+- id: AUTO-FD-HospitalName+Condition->CountyName
+  type: functional_dependency
+  nl: HospitalName + Condition determines CountyName (soft-confidence 0.963).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.963
+  n_groups: 224
+- id: AUTO-FD-Address+Condition->CountyName
+  type: functional_dependency
+  nl: Address + Condition determines CountyName (soft-confidence 0.963).
+  formal:
+    lhs:
+    - Address
+    - Condition
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.963
+  n_groups: 230
+- id: AUTO-FD-ProviderNumber+Condition->CountyName
+  type: functional_dependency
+  nl: ProviderNumber + Condition determines CountyName (soft-confidence 0.962).
+  formal:
+    lhs:
+    - ProviderNumber
+    - Condition
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.962
+  n_groups: 225
+- id: AUTO-FD-ZIP+Condition->CountyName
+  type: functional_dependency
+  nl: ZIP + Condition determines CountyName (soft-confidence 0.962).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.962
+  n_groups: 224
+- id: AUTO-FD-PhoneNumber+Condition->CountyName
+  type: functional_dependency
+  nl: PhoneNumber + Condition determines CountyName (soft-confidence 0.962).
+  formal:
+    lhs:
+    - PhoneNumber
+    - Condition
+    rhs:
+    - CountyName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.962
+  n_groups: 230
+- id: AUTO-FD-Address->PhoneNumber
+  type: functional_dependency
+  nl: Address determines PhoneNumber (soft-confidence 0.968).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 76
+- id: AUTO-FD-HospitalName->PhoneNumber
+  type: functional_dependency
+  nl: HospitalName determines PhoneNumber (soft-confidence 0.967).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.967
+  n_groups: 69
+- id: AUTO-FD-ProviderNumber->PhoneNumber
+  type: functional_dependency
+  nl: ProviderNumber determines PhoneNumber (soft-confidence 0.966).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.966
+  n_groups: 72
+- id: AUTO-FD-ZIP->PhoneNumber
+  type: functional_dependency
+  nl: ZIP determines PhoneNumber (soft-confidence 0.944).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.944
+  n_groups: 71
+- id: AUTO-FD-City->PhoneNumber
+  type: functional_dependency
+  nl: City determines PhoneNumber (soft-confidence 0.857).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.857
+  n_groups: 72
+- id: AUTO-FD-HospitalName+State->PhoneNumber
+  type: functional_dependency
+  nl: HospitalName + State determines PhoneNumber (soft-confidence 0.970).
+  formal:
+    lhs:
+    - HospitalName
+    - State
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 90
+- id: AUTO-FD-ProviderNumber+State->PhoneNumber
+  type: functional_dependency
+  nl: ProviderNumber + State determines PhoneNumber (soft-confidence 0.969).
+  formal:
+    lhs:
+    - ProviderNumber
+    - State
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 93
+- id: AUTO-FD-Address+Condition->PhoneNumber
+  type: functional_dependency
+  nl: Address + Condition determines PhoneNumber (soft-confidence 0.969).
+  formal:
+    lhs:
+    - Address
+    - Condition
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 230
+- id: AUTO-FD-HospitalName+Condition->PhoneNumber
+  type: functional_dependency
+  nl: HospitalName + Condition determines PhoneNumber (soft-confidence 0.968).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 224
+- id: AUTO-FD-ProviderNumber+Condition->PhoneNumber
+  type: functional_dependency
+  nl: ProviderNumber + Condition determines PhoneNumber (soft-confidence 0.967).
+  formal:
+    lhs:
+    - ProviderNumber
+    - Condition
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.967
+  n_groups: 225
+- id: AUTO-FD-State+ZIP->PhoneNumber
+  type: functional_dependency
+  nl: State + ZIP determines PhoneNumber (soft-confidence 0.947).
+  formal:
+    lhs:
+    - State
+    - ZIP
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.947
+  n_groups: 93
+- id: AUTO-FD-ZIP+Condition->PhoneNumber
+  type: functional_dependency
+  nl: ZIP + Condition determines PhoneNumber (soft-confidence 0.945).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.945
+  n_groups: 224
+- id: AUTO-FD-City+Condition->PhoneNumber
+  type: functional_dependency
+  nl: City + Condition determines PhoneNumber (soft-confidence 0.865).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - PhoneNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.865
+  n_groups: 213
+- id: AUTO-FD-HospitalName->HospitalType
+  type: functional_dependency
+  nl: HospitalName determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 69
+- id: AUTO-FD-Address->HospitalType
+  type: functional_dependency
+  nl: Address determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 76
+- id: AUTO-FD-ProviderNumber->HospitalType
+  type: functional_dependency
+  nl: ProviderNumber determines HospitalType (soft-confidence 0.969).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 72
+- id: AUTO-FD-City->HospitalType
+  type: functional_dependency
+  nl: City determines HospitalType (soft-confidence 0.969).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 72
+- id: AUTO-FD-ZIP->HospitalType
+  type: functional_dependency
+  nl: ZIP determines HospitalType (soft-confidence 0.969).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 71
+- id: AUTO-FD-HospitalOwner->HospitalType
+  type: functional_dependency
+  nl: HospitalOwner determines HospitalType (soft-confidence 0.969).
+  formal:
+    lhs:
+    - HospitalOwner
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 27
+- id: AUTO-FD-CountyName->HospitalType
+  type: functional_dependency
+  nl: CountyName determines HospitalType (soft-confidence 0.968).
+  formal:
+    lhs:
+    - CountyName
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 65
+- id: AUTO-FD-PhoneNumber->HospitalType
+  type: functional_dependency
+  nl: PhoneNumber determines HospitalType (soft-confidence 0.968).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 74
+- id: AUTO-FD-EmergencyService->HospitalType
+  type: functional_dependency
+  nl: EmergencyService determines HospitalType (soft-confidence 0.968).
+  formal:
+    lhs:
+    - EmergencyService
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 6
+- id: AUTO-FD-MeasureCode->HospitalType
+  type: functional_dependency
+  nl: MeasureCode determines HospitalType (soft-confidence 0.968).
+  formal:
+    lhs:
+    - MeasureCode
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 54
+- id: AUTO-FD-Score->HospitalType
+  type: functional_dependency
+  nl: Score determines HospitalType (soft-confidence 0.968).
+  formal:
+    lhs:
+    - Score
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 69
+- id: AUTO-FD-HospitalName+Condition->HospitalType
+  type: functional_dependency
+  nl: HospitalName + Condition determines HospitalType (soft-confidence 0.972).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 224
+- id: AUTO-FD-Address+Condition->HospitalType
+  type: functional_dependency
+  nl: Address + Condition determines HospitalType (soft-confidence 0.972).
+  formal:
+    lhs:
+    - Address
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 230
+- id: AUTO-FD-HospitalOwner+MeasureName->HospitalType
+  type: functional_dependency
+  nl: HospitalOwner + MeasureName determines HospitalType (soft-confidence 0.972).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureName
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 266
+- id: AUTO-FD-EmergencyService+MeasureName->HospitalType
+  type: functional_dependency
+  nl: EmergencyService + MeasureName determines HospitalType (soft-confidence 0.972).
+  formal:
+    lhs:
+    - EmergencyService
+    - MeasureName
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 111
+- id: AUTO-FD-ProviderNumber+Condition->HospitalType
+  type: functional_dependency
+  nl: ProviderNumber + Condition determines HospitalType (soft-confidence 0.971).
+  formal:
+    lhs:
+    - ProviderNumber
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 225
+- id: AUTO-FD-HospitalName+State->HospitalType
+  type: functional_dependency
+  nl: HospitalName + State determines HospitalType (soft-confidence 0.971).
+  formal:
+    lhs:
+    - HospitalName
+    - State
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 90
+- id: AUTO-FD-City+Condition->HospitalType
+  type: functional_dependency
+  nl: City + Condition determines HospitalType (soft-confidence 0.971).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 213
+- id: AUTO-FD-ZIP+Condition->HospitalType
+  type: functional_dependency
+  nl: ZIP + Condition determines HospitalType (soft-confidence 0.971).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 224
+- id: AUTO-FD-ProviderNumber+State->HospitalType
+  type: functional_dependency
+  nl: ProviderNumber + State determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - ProviderNumber
+    - State
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 93
+- id: AUTO-FD-State+ZIP->HospitalType
+  type: functional_dependency
+  nl: State + ZIP determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - State
+    - ZIP
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 93
+- id: AUTO-FD-CountyName+Condition->HospitalType
+  type: functional_dependency
+  nl: CountyName + Condition determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - CountyName
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 196
+- id: AUTO-FD-PhoneNumber+Condition->HospitalType
+  type: functional_dependency
+  nl: PhoneNumber + Condition determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - PhoneNumber
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 230
+- id: AUTO-FD-HospitalOwner+MeasureCode->HospitalType
+  type: functional_dependency
+  nl: HospitalOwner + MeasureCode determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureCode
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 259
+- id: AUTO-FD-HospitalOwner+Score->HospitalType
+  type: functional_dependency
+  nl: HospitalOwner + Score determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Score
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 244
+- id: AUTO-FD-HospitalOwner+Stateavg->HospitalType
+  type: functional_dependency
+  nl: HospitalOwner + Stateavg determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Stateavg
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 278
+- id: AUTO-FD-EmergencyService+Condition->HospitalType
+  type: functional_dependency
+  nl: EmergencyService + Condition determines HospitalType (soft-confidence 0.970).
+  formal:
+    lhs:
+    - EmergencyService
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 46
+- id: AUTO-FD-State+PhoneNumber->HospitalType
+  type: functional_dependency
+  nl: State + PhoneNumber determines HospitalType (soft-confidence 0.969).
+  formal:
+    lhs:
+    - State
+    - PhoneNumber
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 94
+- id: AUTO-FD-State+Condition->HospitalType
+  type: functional_dependency
+  nl: State + Condition determines HospitalType (soft-confidence 0.969).
+  formal:
+    lhs:
+    - State
+    - Condition
+    rhs:
+    - HospitalType
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 41
+- id: AUTO-FD-PhoneNumber->HospitalOwner
+  type: functional_dependency
+  nl: PhoneNumber determines HospitalOwner (soft-confidence 0.975).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 74
+- id: AUTO-FD-ProviderNumber->HospitalOwner
+  type: functional_dependency
+  nl: ProviderNumber determines HospitalOwner (soft-confidence 0.973).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 72
+- id: AUTO-FD-HospitalName->HospitalOwner
+  type: functional_dependency
+  nl: HospitalName determines HospitalOwner (soft-confidence 0.973).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 69
+- id: AUTO-FD-Address->HospitalOwner
+  type: functional_dependency
+  nl: Address determines HospitalOwner (soft-confidence 0.973).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 76
+- id: AUTO-FD-ZIP->HospitalOwner
+  type: functional_dependency
+  nl: ZIP determines HospitalOwner (soft-confidence 0.951).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.951
+  n_groups: 71
+- id: AUTO-FD-City->HospitalOwner
+  type: functional_dependency
+  nl: City determines HospitalOwner (soft-confidence 0.905).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.905
+  n_groups: 72
+- id: AUTO-FD-State+PhoneNumber->HospitalOwner
+  type: functional_dependency
+  nl: State + PhoneNumber determines HospitalOwner (soft-confidence 0.977).
+  formal:
+    lhs:
+    - State
+    - PhoneNumber
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.977
+  n_groups: 94
+- id: AUTO-FD-ProviderNumber+State->HospitalOwner
+  type: functional_dependency
+  nl: ProviderNumber + State determines HospitalOwner (soft-confidence 0.976).
+  formal:
+    lhs:
+    - ProviderNumber
+    - State
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 93
+- id: AUTO-FD-HospitalName+State->HospitalOwner
+  type: functional_dependency
+  nl: HospitalName + State determines HospitalOwner (soft-confidence 0.976).
+  formal:
+    lhs:
+    - HospitalName
+    - State
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 90
+- id: AUTO-FD-ZIP+PhoneNumber->HospitalOwner
+  type: functional_dependency
+  nl: ZIP + PhoneNumber determines HospitalOwner (soft-confidence 0.976).
+  formal:
+    lhs:
+    - ZIP
+    - PhoneNumber
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 101
+- id: AUTO-FD-PhoneNumber+Condition->HospitalOwner
+  type: functional_dependency
+  nl: PhoneNumber + Condition determines HospitalOwner (soft-confidence 0.976).
+  formal:
+    lhs:
+    - PhoneNumber
+    - Condition
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.976
+  n_groups: 230
+- id: AUTO-FD-ProviderNumber+Condition->HospitalOwner
+  type: functional_dependency
+  nl: ProviderNumber + Condition determines HospitalOwner (soft-confidence 0.974).
+  formal:
+    lhs:
+    - ProviderNumber
+    - Condition
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 225
+- id: AUTO-FD-HospitalName+Condition->HospitalOwner
+  type: functional_dependency
+  nl: HospitalName + Condition determines HospitalOwner (soft-confidence 0.974).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 224
+- id: AUTO-FD-Address+Condition->HospitalOwner
+  type: functional_dependency
+  nl: Address + Condition determines HospitalOwner (soft-confidence 0.974).
+  formal:
+    lhs:
+    - Address
+    - Condition
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 230
+- id: AUTO-FD-State+ZIP->HospitalOwner
+  type: functional_dependency
+  nl: State + ZIP determines HospitalOwner (soft-confidence 0.954).
+  formal:
+    lhs:
+    - State
+    - ZIP
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.954
+  n_groups: 93
+- id: AUTO-FD-ZIP+Condition->HospitalOwner
+  type: functional_dependency
+  nl: ZIP + Condition determines HospitalOwner (soft-confidence 0.953).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.953
+  n_groups: 224
+- id: AUTO-FD-City+Condition->HospitalOwner
+  type: functional_dependency
+  nl: City + Condition determines HospitalOwner (soft-confidence 0.910).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - HospitalOwner
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.91
+  n_groups: 213
+- id: AUTO-FD-HospitalName->EmergencyService
+  type: functional_dependency
+  nl: HospitalName determines EmergencyService (soft-confidence 0.974).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 69
+- id: AUTO-FD-Address->EmergencyService
+  type: functional_dependency
+  nl: Address determines EmergencyService (soft-confidence 0.974).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 76
+- id: AUTO-FD-ZIP->EmergencyService
+  type: functional_dependency
+  nl: ZIP determines EmergencyService (soft-confidence 0.974).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 71
+- id: AUTO-FD-PhoneNumber->EmergencyService
+  type: functional_dependency
+  nl: PhoneNumber determines EmergencyService (soft-confidence 0.974).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 74
+- id: AUTO-FD-ProviderNumber->EmergencyService
+  type: functional_dependency
+  nl: ProviderNumber determines EmergencyService (soft-confidence 0.973).
+  formal:
+    lhs:
+    - ProviderNumber
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 72
+- id: AUTO-FD-City->EmergencyService
+  type: functional_dependency
+  nl: City determines EmergencyService (soft-confidence 0.973).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 72
+- id: AUTO-FD-CountyName->EmergencyService
+  type: functional_dependency
+  nl: CountyName determines EmergencyService (soft-confidence 0.973).
+  formal:
+    lhs:
+    - CountyName
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 65
+- id: AUTO-FD-HospitalOwner->EmergencyService
+  type: functional_dependency
+  nl: HospitalOwner determines EmergencyService (soft-confidence 0.854).
+  formal:
+    lhs:
+    - HospitalOwner
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.854
+  n_groups: 27
+- id: AUTO-FD-ZIP+PhoneNumber->EmergencyService
+  type: functional_dependency
+  nl: ZIP + PhoneNumber determines EmergencyService (soft-confidence 0.975).
+  formal:
+    lhs:
+    - ZIP
+    - PhoneNumber
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 101
+- id: AUTO-FD-ZIP+Condition->EmergencyService
+  type: functional_dependency
+  nl: ZIP + Condition determines EmergencyService (soft-confidence 0.975).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 224
+- id: AUTO-FD-HospitalOwner+Score->EmergencyService
+  type: functional_dependency
+  nl: HospitalOwner + Score determines EmergencyService (soft-confidence 0.879).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Score
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.879
+  n_groups: 244
+- id: AUTO-FD-HospitalOwner+MeasureCode->EmergencyService
+  type: functional_dependency
+  nl: HospitalOwner + MeasureCode determines EmergencyService (soft-confidence 0.867).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureCode
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.867
+  n_groups: 259
+- id: AUTO-FD-HospitalOwner+MeasureName->EmergencyService
+  type: functional_dependency
+  nl: HospitalOwner + MeasureName determines EmergencyService (soft-confidence 0.865).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureName
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.865
+  n_groups: 266
+- id: AUTO-FD-HospitalOwner+Stateavg->EmergencyService
+  type: functional_dependency
+  nl: HospitalOwner + Stateavg determines EmergencyService (soft-confidence 0.865).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Stateavg
+    rhs:
+    - EmergencyService
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.865
+  n_groups: 278
+- id: AUTO-FD-HospitalName->ProviderNumber
+  type: functional_dependency
+  nl: HospitalName determines ProviderNumber (soft-confidence 0.972).
+  formal:
+    lhs:
+    - HospitalName
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 69
+- id: AUTO-FD-Address->ProviderNumber
+  type: functional_dependency
+  nl: Address determines ProviderNumber (soft-confidence 0.972).
+  formal:
+    lhs:
+    - Address
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 76
+- id: AUTO-FD-PhoneNumber->ProviderNumber
+  type: functional_dependency
+  nl: PhoneNumber determines ProviderNumber (soft-confidence 0.972).
+  formal:
+    lhs:
+    - PhoneNumber
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 74
+- id: AUTO-FD-ZIP->ProviderNumber
+  type: functional_dependency
+  nl: ZIP determines ProviderNumber (soft-confidence 0.949).
+  formal:
+    lhs:
+    - ZIP
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.949
+  n_groups: 71
+- id: AUTO-FD-City->ProviderNumber
+  type: functional_dependency
+  nl: City determines ProviderNumber (soft-confidence 0.857).
+  formal:
+    lhs:
+    - City
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.857
+  n_groups: 72
+- id: AUTO-FD-HospitalName+Condition->ProviderNumber
+  type: functional_dependency
+  nl: HospitalName + Condition determines ProviderNumber (soft-confidence 0.975).
+  formal:
+    lhs:
+    - HospitalName
+    - Condition
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 224
+- id: AUTO-FD-Address+Condition->ProviderNumber
+  type: functional_dependency
+  nl: Address + Condition determines ProviderNumber (soft-confidence 0.975).
+  formal:
+    lhs:
+    - Address
+    - Condition
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 230
+- id: AUTO-FD-PhoneNumber+Condition->ProviderNumber
+  type: functional_dependency
+  nl: PhoneNumber + Condition determines ProviderNumber (soft-confidence 0.975).
+  formal:
+    lhs:
+    - PhoneNumber
+    - Condition
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 230
+- id: AUTO-FD-HospitalName+State->ProviderNumber
+  type: functional_dependency
+  nl: HospitalName + State determines ProviderNumber (soft-confidence 0.973).
+  formal:
+    lhs:
+    - HospitalName
+    - State
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 90
+- id: AUTO-FD-State+PhoneNumber->ProviderNumber
+  type: functional_dependency
+  nl: State + PhoneNumber determines ProviderNumber (soft-confidence 0.973).
+  formal:
+    lhs:
+    - State
+    - PhoneNumber
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.973
+  n_groups: 94
+- id: AUTO-FD-ZIP+Condition->ProviderNumber
+  type: functional_dependency
+  nl: ZIP + Condition determines ProviderNumber (soft-confidence 0.952).
+  formal:
+    lhs:
+    - ZIP
+    - Condition
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.952
+  n_groups: 224
+- id: AUTO-FD-State+ZIP->ProviderNumber
+  type: functional_dependency
+  nl: State + ZIP determines ProviderNumber (soft-confidence 0.950).
+  formal:
+    lhs:
+    - State
+    - ZIP
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.95
+  n_groups: 93
+- id: AUTO-FD-City+Condition->ProviderNumber
+  type: functional_dependency
+  nl: City + Condition determines ProviderNumber (soft-confidence 0.864).
+  formal:
+    lhs:
+    - City
+    - Condition
+    rhs:
+    - ProviderNumber
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.864
+  n_groups: 213
+- id: AUTO-FD-MeasureCode->Condition
+  type: functional_dependency
+  nl: MeasureCode determines Condition (soft-confidence 0.968).
+  formal:
+    lhs:
+    - MeasureCode
+    rhs:
+    - Condition
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 54
+- id: AUTO-FD-HospitalOwner+MeasureCode->Condition
+  type: functional_dependency
+  nl: HospitalOwner + MeasureCode determines Condition (soft-confidence 0.972).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureCode
+    rhs:
+    - Condition
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 259
+- id: AUTO-FD-HospitalOwner+MeasureName->Condition
+  type: functional_dependency
+  nl: HospitalOwner + MeasureName determines Condition (soft-confidence 0.972).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureName
+    rhs:
+    - Condition
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 266
+- id: AUTO-FD-HospitalOwner+Stateavg->Condition
+  type: functional_dependency
+  nl: HospitalOwner + Stateavg determines Condition (soft-confidence 0.972).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Stateavg
+    rhs:
+    - Condition
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.972
+  n_groups: 278
+- id: AUTO-FD-EmergencyService+MeasureName->Condition
+  type: functional_dependency
+  nl: EmergencyService + MeasureName determines Condition (soft-confidence 0.969).
+  formal:
+    lhs:
+    - EmergencyService
+    - MeasureName
+    rhs:
+    - Condition
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.969
+  n_groups: 111
+- id: AUTO-FD-MeasureCode->MeasureName
+  type: functional_dependency
+  nl: MeasureCode determines MeasureName (soft-confidence 0.964).
+  formal:
+    lhs:
+    - MeasureCode
+    rhs:
+    - MeasureName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.964
+  n_groups: 54
+- id: AUTO-FD-HospitalOwner+Stateavg->MeasureName
+  type: functional_dependency
+  nl: HospitalOwner + Stateavg determines MeasureName (soft-confidence 0.970).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Stateavg
+    rhs:
+    - MeasureName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.97
+  n_groups: 278
+- id: AUTO-FD-HospitalOwner+MeasureCode->MeasureName
+  type: functional_dependency
+  nl: HospitalOwner + MeasureCode determines MeasureName (soft-confidence 0.968).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureCode
+    rhs:
+    - MeasureName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.968
+  n_groups: 259
+- id: AUTO-FD-EmergencyService+MeasureCode->MeasureName
+  type: functional_dependency
+  nl: EmergencyService + MeasureCode determines MeasureName (soft-confidence 0.965).
+  formal:
+    lhs:
+    - EmergencyService
+    - MeasureCode
+    rhs:
+    - MeasureName
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.965
+  n_groups: 102
+- id: AUTO-FD-MeasureCode->Stateavg
+  type: functional_dependency
+  nl: MeasureCode determines Stateavg (soft-confidence 0.954).
+  formal:
+    lhs:
+    - MeasureCode
+    rhs:
+    - Stateavg
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.954
+  n_groups: 54
+- id: AUTO-FD-HospitalOwner+MeasureName->Stateavg
+  type: functional_dependency
+  nl: HospitalOwner + MeasureName determines Stateavg (soft-confidence 0.958).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureName
+    rhs:
+    - Stateavg
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.958
+  n_groups: 266
+- id: AUTO-FD-HospitalOwner+MeasureCode->Stateavg
+  type: functional_dependency
+  nl: HospitalOwner + MeasureCode determines Stateavg (soft-confidence 0.957).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureCode
+    rhs:
+    - Stateavg
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.957
+  n_groups: 259
+- id: AUTO-FD-EmergencyService+MeasureName->Stateavg
+  type: functional_dependency
+  nl: EmergencyService + MeasureName determines Stateavg (soft-confidence 0.956).
+  formal:
+    lhs:
+    - EmergencyService
+    - MeasureName
+    rhs:
+    - Stateavg
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.956
+  n_groups: 111
+- id: AUTO-FD-EmergencyService+MeasureCode->Stateavg
+  type: functional_dependency
+  nl: EmergencyService + MeasureCode determines Stateavg (soft-confidence 0.955).
+  formal:
+    lhs:
+    - EmergencyService
+    - MeasureCode
+    rhs:
+    - Stateavg
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.955
+  n_groups: 102
+- id: AUTO-FD-HospitalOwner+Stateavg->MeasureCode
+  type: functional_dependency
+  nl: HospitalOwner + Stateavg determines MeasureCode (soft-confidence 0.975).
+  formal:
+    lhs:
+    - HospitalOwner
+    - Stateavg
+    rhs:
+    - MeasureCode
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.975
+  n_groups: 278
+- id: AUTO-FD-HospitalOwner+MeasureName->MeasureCode
+  type: functional_dependency
+  nl: HospitalOwner + MeasureName determines MeasureCode (soft-confidence 0.974).
+  formal:
+    lhs:
+    - HospitalOwner
+    - MeasureName
+    rhs:
+    - MeasureCode
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.974
+  n_groups: 266
+- id: AUTO-FD-EmergencyService+MeasureName->MeasureCode
+  type: functional_dependency
+  nl: EmergencyService + MeasureName determines MeasureCode (soft-confidence 0.971).
+  formal:
+    lhs:
+    - EmergencyService
+    - MeasureName
+    rhs:
+    - MeasureCode
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.971
+  n_groups: 111
+- id: LLM-pattern-001
+  type: pattern
+  nl: PhoneNumber must be digits with optional leading country code (no letters).
+  formal:
+    column: PhoneNumber
+    regex: ^[0-9]+$
+  severity: high
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-domain-001
+  type: domain
+  nl: State must be a valid two-letter US state code.
+  formal:
+    column: State
+    allowed:
+    - AL
+    - AK
+    - AZ
+    - AR
+    - CA
+    - CO
+    - CT
+    - DE
+    - FL
+    - GA
+    - HI
+    - IA
+    - ID
+    - IL
+    - IN
+    - KS
+    - KY
+    - LA
+    - MA
+    - MD
+    - ME
+    - MI
+    - MN
+    - MO
+    - MS
+    - MT
+    - NC
+    - ND
+    - NE
+    - NH
+    - NJ
+    - NM
+    - NV
+    - NY
+    - OH
+    - OK
+    - OR
+    - PA
+    - RI
+    - SC
+    - SD
+    - TN
+    - TX
+    - UT
+    - VA
+    - VT
+    - WA
+    - WI
+    - WV
+    - WY
+  severity: high
+  error_type_when_violated: domain_violation
+  source: auto_llm
+- id: LLM-pattern-002
+  type: pattern
+  nl: ZIP should be a 5-digit numeric string.
+  formal:
+    column: ZIP
+    regex: ^\d{5}$
+  severity: high
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-domain-002
+  type: domain
+  nl: 'EmergencyService should be one of canonical values: yes, no.'
+  formal:
+    column: EmergencyService
+    allowed:
+    - 'yes'
+    - 'no'
+  severity: medium
+  error_type_when_violated: domain_violation
+  source: auto_llm
+- id: LLM-pattern-003
+  type: pattern
+  nl: Sample field should be a short text (no newlines) represented as a number followed
+    by ' patients'.
+  formal:
+    column: Sample
+    regex: ^\d+ patients$
+  severity: low
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-range-001
+  type: range
+  nl: Score should be a percentage string ending with % or 'empty'.
+  formal:
+    column: Score
+    min: 0
+    max: 100
+  severity: medium
+  error_type_when_violated: outlier
+  source: auto_llm
+- id: LLM-business-001
+  type: business_rule
+  nl: HospitalType values must be spelled correctly; common misspellings indicate
+    data quality issues.
+  formal:
+    column: HospitalType
+    rule: values must resemble known types; detect typos like 'hosxitals', 'acuxe'
+      etc.
+  severity: medium
+  error_type_when_violated: business_rule
+  source: auto_llm

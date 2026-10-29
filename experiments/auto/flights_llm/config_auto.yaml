@@ -1,0 +1,69 @@
+run_id: auto_flights_auto
+purpose: AutoCSV-LED end-to-end on flights_auto
+ablation_id: AUTO
+seed: 42
+dataset:
+  name: flights_auto
+  version: auto
+  split: all
+  subset_n: 2376
+  stratified: false
+  auto_input_path: D:\hoinghi_IUKM2026\data\processed\flights_v1\all.parquet
+  auto_exclude_cols:
+  - y_true
+  - err_type
+  - row_id
+  - tuple_id
+method:
+  name: maled
+  agents:
+    auditor:
+      prompt: auditor_v1
+      model: gpt-5-nano
+      temperature: 0.0
+      max_tokens: 1500
+    expert:
+      prompt: D:\hoinghi_IUKM2026\experiments\auto\flights_llm\expert_prompt_auto.md
+      model: gpt-5-nano
+      temperature: 0.0
+      max_tokens: 1500
+      constraints_path: D:\hoinghi_IUKM2026\experiments\auto\flights_llm\constraints_auto.yaml
+      neighbor_k: 3
+  bcl:
+    enabled: true
+    use_raw_conf: false
+    weights:
+      w1: 0.4
+      w2: 0.3
+      w3: 0.2
+      w4: 0.5
+  ds:
+    enabled: true
+  uq:
+    self_consistency_M: 1
+    n_perturb: 0
+    perturbations: []
+  cadp:
+    enabled: true
+    use_conflict_gate: true
+    tau_e: 0.5
+    tau_c: 0.5
+    tau_k: 0.4
+    tau_omega: 0.4
+    alpha: 0.1
+    re_prompt_on_abstain: false
+    target_coverage: 0.2
+llm:
+  provider: openai
+  retry: 2
+  timeout_s: 30
+  cache:
+    enabled: true
+    path: .cache/llm.sqlite
+budget:
+  max_usd: 4.0
+  max_tokens_total: 20000000
+logging:
+  level: INFO
+  trace_n_samples: 10
+  save_per_sample_outputs: true

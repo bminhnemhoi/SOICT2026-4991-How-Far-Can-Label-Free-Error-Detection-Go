@@ -1,0 +1,21 @@
+{
+  "dataset": "flights",
+  "model": "gpt-5-nano",
+  "n_rows": 1426,
+  "wall_clock_s": 1473.3581500053406,
+  "cost": {
+    "tokens_in": 223096,
+    "tokens_out": 21390,
+    "n_calls": 1426,
+    "n_cache_hits": 0,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 223096,
+        "tokens_out": 21390,
+        "n_calls": 1426,
+        "usd": 0.019711
+      }
+    },
+    "usd": 0.019711
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "name": "beers_auto",
+  "n_rows": 2410,
+  "n_cols": 9,
+  "columns": [
+    "beer_name",
+    "style",
+    "ounces",
+    "abv",
+    "ibu",
+    "brewery_id",
+    "brewery_name",
+    "city",
+    "state"
+  ],
+  "column_stats": {
+    "beer_name": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 2304,
+      "top_values": [
+        "Nonstop Hef Hop",
+        "Oktoberfest",
+        "Dale's Pale Ale",
+        "Longboard Island Lager",
+        "1327 Pod's ESB"
+      ]
+    },
+    "style": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 100,
+      "top_values": [
+        "American IPA",
+        "American Pale Ale (APA)",
+        "American Amber / Red Ale",
+        "American Blonde Ale",
+        "American Double / Imperial IPA"
+      ]
+    },
+    "ounces": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 25,
+      "top_values": [
+        "12.0 oz.",
+        "12.0 oz",
+        "12.0 ounce",
+        "16.0 oz.",
+        "16.0 oz"
+      ]
+    },
+    "abv": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 132,
+      "top_values": [
+        "0.05",
+        "0.055",
+        "0.06",
+        "0.065",
+        "0.052"
+      ]
+    },
+    "ibu": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 108,
+      "top_values": [
+        "N/A",
+        "20",
+        "35",
+        "65",
+        "30"
+      ]
+    },
+    "brewery_id": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 558,
+      "top_values": [
+        "10",
+        "25",
+        "166",
+        "141",
+        "46"
+      ]
+    },
+    "brewery_name": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 551,
+      "top_values": [
+        "Brewery Vivant",
+        "Oskar Blues Brewery",
+        "Sun King Brewing Company",
+        "Cigar City Brewing Company",
+        "Sixpoint Craft Ales"
+      ]
+    },
+    "city": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 475,
+      "top_values": [
+        "Grand Rapids",
+        "Portland",
+        "Chicago",
+        "San Diego",
+        "Indianapolis"
+      ]
+    },
+    "state": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 52,
+      "top_values": [
+        "CO",
+        "CA",
+        "MI",
+        "IN",
+        ""
+      ]
+    }
+  },
+  "sample_rows": [
+    {
+      "beer_name": "Three Kings Ale",
+      "style": "Kölsch",
+      "ounces": "12.0 oz.",
+      "abv": "0.049",
+      "ibu": "13",
+      "brewery_id": "131",
+      "brewery_name": "Stevens Point Brewery",
+      "city": "Stevens Point",
+      "state": "WI"
+    },
+    {
+      "beer_name": "Hell",
+      "style": "Keller Bier / Zwickel Bier",
+      "ounces": "16.0 oz.",
+      "abv": "0.051%",
+      "ibu": "20",
+      "brewery_id": "61",
+      "brewery_name": "Surly Brewing Company",
+      "city": "Brooklyn Center",
+      "state": "MN"
+    },
+    {
+      "beer_name": "BLAKKR",
+      "style": "American Black Ale",
+      "ounces": "12.0 OZ.",
+      "abv": "0.099%",
+      "ibu": "85",
+      "brewery_id": "128",
+      "brewery_name": "Real Ale Brewing Company",
+      "city": "Blanco",
+      "state": "TX"
+    },
+    {
+      "beer_name": "Wasatch Ghostrider White IPA",
+      "style": "American White IPA",
+      "ounces": "12.0 ounce",
+      "abv": "0.06",
+      "ibu": "N/A",
+      "brewery_id": "302",
+      "brewery_name": "Utah Brewers Cooperative",
+      "city": "Salt Lake City",
+      "state": "UT"
+    },
+    {
+      "beer_name": "Czech Yo Self",
+      "style": "Czech Pilsener",
+      "ounces": "12.0 oz.",
+      "abv": "0.055%",
+      "ibu": "45",
+      "brewery_id": "36",
+      "brewery_name": "Figueroa Mountain Brewing Company",
+      "city": "Buellton",
+      "state": "CA"
+    },
+    {
+      "beer_name": "Damascene Apricot Sour",
+      "style": "Fruit / Vegetable Beer",
+      "ounces": "16.0 oz",
+      "abv": "0.052",
+      "ibu": "12",
+      "brewery_id": "17",
+      "brewery_name": "Tin Man Brewing Company",
+      "city": "Evansville",
+      "state": "IN"
+    },
+    {
+      "beer_name": "Old Tom Porter",
+      "style": "American Porter",
+      "ounces": "16.0 oz",
+      "abv": "0.055",
+      "ibu": "25",
+      "brewery_id": "314",
+      "brewery_name": "Piney River Brewing Company",
+      "city": "Bucryus",
+      "state": "MO"
+    },
+    {
+      "beer_name": "Boji Beach Golden Rye Ale",
+      "style": "Rye Beer",
+      "ounces": "16.0 oz.",
+      "abv": "0.05%",
+      "ibu": "23",
+      "brewery_id": "471",
+      "brewery_name": "Okoboji Brewing Company",
+      "city": "Spirit Lake",
+      "state": "IA"
+    },
+    {
+      "beer_name": "Gandhi-Bot Double IPA (16 oz.) (2010)",
+      "style": "American Double / Imperial IPA",
+      "ounces": "16.0 oz.",
+      "abv": "0.088",
+      "ibu": "85",
+      "brewery_id": "410",
+      "brewery_name": "New England Brewing Company",
+      "city": "Woodbridge",
+      "state": "CT"
+    },
+    {
+      "beer_name": "Bikini Blonde Lager",
+      "style": "Munich Helles Lager",
+      "ounces": "12.0 oz",
+      "abv": "0.045",
+      "ibu": "18",
+      "brewery_id": "375",
+      "brewery_name": "Maui Brewing Company",
+      "city": "Lahaina",
+      "state": "HI"
+    },
+    {
+      "beer_name": "CoCoNut Porter",
+      "style": "American Porter",
+      "ounces": "12.0 oz.",
+      "abv": "0.057",
+      "ibu": "30",
+      "brewery_id": "375",
+      "brewery_name": "Maui Brewing Company",
+      "city": "Lahaina",
+      "state": "HI"
+    },
+    {
+      "beer_name": "Red Mountain Ale",
+      "style": "American Amber / Red Ale",
+      "ounces": "12.0 oz.",
+      "abv": "0.06",
+      "ibu": "N/A",
+      "brewery_id": "551",
+      "brewery_name": "Silverton Brewery",
+      "city": "Silverton",
+      "state": "CO"
+    },
+    {
+      "beer_name": "East India Pale Ale",
+      "style": "English India Pale Ale (IPA)",
+      "ounces": "16.0 oz",
+      "abv": "0.068%",
+      "ibu": "47",
+      "brewery_id": "437",
+      "brewery_name": "Brooklyn Brewery",
+      "city": "Brooklyn",
+      "state": "NY"
+    },
+    {
+      "beer_name": "Dale's Pale Ale",
+      "style": "American Pale Ale (APA)",
+      "ounces": "12.0 oz.",
+      "abv": "0.065",
+      "ibu": "65",
+      "brewery_id": "166",
+      "brewery_name": "Oskar Blues Brewery",
+      "city": "Longmont",
+      "state": "CO"
+    },
+    {
+      "beer_name": "Aprè Shred",
+      "style": "American Strong Ale",
+      "ounces": "16.0 oz. Alumi-Tek",
+      "abv": "0.081",
+      "ibu": "17",
+      "brewery_id": "220",
+      "brewery_name": "Big Choice Brewing",
+      "city": "Broomfield",
+      "state": "CO"
+    },
+    {
+      "beer_name": "Black Rabbit",
+      "style": "American Black Ale",
+      "ounces": "16.0 ounce",
+      "abv": "0.05%",
+      "ibu": "N/A",
+      "brewery_id": "10",
+      "brewery_name": "Brewery Vivant",
+      "city": "Grand Rapids",
+      "state": "MI"
+    },
+    {
+      "beer_name": "Eclipse Black IPA",
+      "style": "American Black Ale",
+      "ounces": "16.0 oz.",
+      "abv": "0.077",
+      "ibu": "71",
+      "brewery_id": "515",
+      "brewery_name": "Crabtree Brewing Company",
+      "city": "Greeley",
+      "state": "CO"
+    },
+    {
+      "beer_name": "One-Hit Wonderful",
+      "style": "Belgian IPA",
+      "ounces": "24.0 oz",
+      "abv": "0.075%",
+      "ibu": "N/A",
+      "brewery_id": "65",
+      "brewery_name": "Mikerphone Brewing",
+      "city": "Chicago",
+      "state": "IL"
+    },
+    {
+      "beer_name": "Trigger Blonde Ale",
+      "style": "American Blonde Ale",
+      "ounces": "16.0 oz.",
+      "abv": "0.048%",
+      "ibu": "N/A",
+      "brewery_id": "515",
+      "brewery_name": "Crabtree Brewing Company",
+      "city": "Greeley",
+      "state": "CO"
+    },
+    {
+      "beer_name": "Brontide",
+      "style": "American Black Ale",
+      "ounces": "12.0 OZ.",
+      "abv": "0.05",
+      "ibu": "N/A",
+      "brewery_id": "255",
+      "brewery_name": "Stillwater Artisanal Ales",
+      "city": "Baltimore",
+      "state": "MD"
+    }
+  ],
+  "inferred_domain": "beer",
+  "meta": {}
+}

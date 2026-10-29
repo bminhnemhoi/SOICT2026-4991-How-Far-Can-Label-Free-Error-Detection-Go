@@ -1,0 +1,35 @@
+name: rayyan
+version: v1
+seed: 42
+source: RAHA dataset suite (Mahdavi et al. 2019)
+fractions:
+  test: 0.6
+  dev: 0.2
+  cal: 0.2
+n_total: 1000
+n_test: 600
+n_dev: 200
+n_cal: 200
+label_dist:
+  err: 774
+  clean: 226
+err_type_dist:
+  modified: 774
+  none: 226
+columns:
+- row_id
+- id
+- article_title
+- article_language
+- journal_title
+- jounral_abbreviation
+- journal_issn
+- article_jvolumn
+- article_jissue
+- article_jcreated_at
+- article_pagination
+- author_list
+- y_true
+- err_type
+md5:
+  all: dd2c443aa3b2a7718c7631b5d7b35d79

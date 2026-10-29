@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExpertOutput",
+  "type": "object",
+  "required": ["label", "confidence", "explanation", "evidence_features"],
+  "additionalProperties": false,
+  "properties": {
+    "label": {"enum": ["error", "clean"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "explanation": {"type": "string", "maxLength": 800},
+    "suspicious_fields": {
+      "type": "array",
+      "items": {"type": "string"},
+      "maxItems": 32
+    },
+    "evidence_features": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fd_violations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["constraint_id", "details"],
+            "properties": {
+              "constraint_id": {"type": "string"},
+              "details": {"type": "string"}
+            }
+          }
+        },
+        "denial_violations": {"type": "array"},
+        "rule_violations": {"type": "array"},
+        "cross_row_issues": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "dataset": "beers",
+  "model": "gpt-5-nano",
+  "n_rows": 1446,
+  "wall_clock_s": 1503.5358245372772,
+  "cost": {
+    "tokens_in": 252590,
+    "tokens_out": 21690,
+    "n_calls": 1446,
+    "n_cache_hits": 0,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 252590,
+        "tokens_out": 21690,
+        "n_calls": 1446,
+        "usd": 0.021306
+      }
+    },
+    "usd": 0.021306
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "dataset": "rayyan",
+  "model": "gpt-5-nano",
+  "n_rows": 600,
+  "wall_clock_s": 650.0246222019196,
+  "cost": {
+    "tokens_in": 139454,
+    "tokens_out": 9000,
+    "n_calls": 600,
+    "n_cache_hits": 0,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 139454,
+        "tokens_out": 9000,
+        "n_calls": 600,
+        "usd": 0.010573
+      }
+    },
+    "usd": 0.010573
+  }
+}

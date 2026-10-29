@@ -1,0 +1,251 @@
+{
+  "name": "flights_auto",
+  "n_rows": 2376,
+  "n_cols": 6,
+  "columns": [
+    "src",
+    "flight",
+    "sched_dep_time",
+    "act_dep_time",
+    "sched_arr_time",
+    "act_arr_time"
+  ],
+  "column_stats": {
+    "src": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 38,
+      "top_values": [
+        "helloflight",
+        "boston",
+        "airtravelcenter",
+        "flightview",
+        "panynj"
+      ]
+    },
+    "flight": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 100,
+      "top_values": [
+        "AA-59-JFK-SFO",
+        "UA-664-ORD-PHL",
+        "AA-1640-MIA-MCO",
+        "AA-2050-ORD-MIA",
+        "AA-4307-ORD-DTW"
+      ]
+    },
+    "sched_dep_time": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 138,
+      "top_values": [
+        "",
+        "7:10 a.m.",
+        "6:00 a.m.",
+        "4:00 p.m.",
+        "10:40 a.m."
+      ]
+    },
+    "act_dep_time": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 291,
+      "top_values": [
+        "",
+        "7:22 a.m.",
+        "8:04 a.m.",
+        "7:31 a.m.",
+        "3:36 p.m."
+      ]
+    },
+    "sched_arr_time": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 240,
+      "top_values": [
+        "",
+        "2:35 p.m.",
+        "2:45 p.m.",
+        "3:50 p.m.",
+        "6:40 p.m."
+      ]
+    },
+    "act_arr_time": {
+      "dtype": "str",
+      "missing_rate": 0.0,
+      "n_unique": 329,
+      "top_values": [
+        "",
+        "7:10 p.m.",
+        "12:09 p.m.",
+        "5:34 p.m.",
+        "9:45 a.m."
+      ]
+    }
+  },
+  "sample_rows": [
+    {
+      "src": "businesstravellogue",
+      "flight": "AA-1733-ORD-PHX",
+      "sched_dep_time": "7:45 p.m.",
+      "act_dep_time": "",
+      "sched_arr_time": "10:30 p.m.",
+      "act_arr_time": ""
+    },
+    {
+      "src": "flylouisville",
+      "flight": "UA-2515-DFW-CLT",
+      "sched_dep_time": "",
+      "act_dep_time": "7:07 a.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "10:47 a.m."
+    },
+    {
+      "src": "helloflight",
+      "flight": "AA-643-MIA-ORD",
+      "sched_dep_time": "",
+      "act_dep_time": "7:31 a.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "9:26 a.m."
+    },
+    {
+      "src": "orbitz",
+      "flight": "AA-466-IAH-MIA",
+      "sched_dep_time": "6:00aDec 1",
+      "act_dep_time": "5:58aDec 1",
+      "sched_arr_time": "9:20aDec 1",
+      "act_arr_time": "9:05aDec 1"
+    },
+    {
+      "src": "helloflight",
+      "flight": "UA-2830-MCO-CLT",
+      "sched_dep_time": "",
+      "act_dep_time": "3:50 p.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "5:14 p.m."
+    },
+    {
+      "src": "ua",
+      "flight": "UA-37-EWR-MCO",
+      "sched_dep_time": "1:29 p.m.",
+      "act_dep_time": "1:48 p.m.            Delayed",
+      "sched_arr_time": "4:17 p.m.",
+      "act_arr_time": "4:17 p.m."
+    },
+    {
+      "src": "myrateplan",
+      "flight": "AA-2957-DFW-CVG",
+      "sched_dep_time": "",
+      "act_dep_time": "8:04 a.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "10:58 a.m."
+    },
+    {
+      "src": "flightstats",
+      "flight": "UA-2708-EWR-CLT",
+      "sched_dep_time": "2:55 p.m.",
+      "act_dep_time": "2:52 p.m.",
+      "sched_arr_time": "4:53 p.m.",
+      "act_arr_time": "4:44 p.m."
+    },
+    {
+      "src": "travelocity",
+      "flight": "UA-854-SFO-IAH",
+      "sched_dep_time": "Not Available",
+      "act_dep_time": "8:07 a.m.",
+      "sched_arr_time": "Not Available",
+      "act_arr_time": "1:30 p.m."
+    },
+    {
+      "src": "allegiantair",
+      "flight": "CO-1694-LAX-IAH",
+      "sched_dep_time": "7:15 p.m.",
+      "act_dep_time": "",
+      "sched_arr_time": "12:21 a.m. Dec 02",
+      "act_arr_time": ""
+    },
+    {
+      "src": "flightview",
+      "flight": "UA-3050-PHX-CLT",
+      "sched_dep_time": "11:05 a.m.",
+      "act_dep_time": "11:45 a.m.",
+      "sched_arr_time": "4:57 p.m.",
+      "act_arr_time": "5:03 p.m."
+    },
+    {
+      "src": "flytecomm",
+      "flight": "UA-397-JFK-SFO",
+      "sched_dep_time": "",
+      "act_dep_time": "8:48 a.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "11:30 a.m."
+    },
+    {
+      "src": "flightaware",
+      "flight": "AA-3-JFK-LAX",
+      "sched_dep_time": "12:00 p.m.",
+      "act_dep_time": "12:12 p.m.",
+      "sched_arr_time": "2:47 p.m.",
+      "act_arr_time": "3:04 p.m."
+    },
+    {
+      "src": "foxbusiness",
+      "flight": "UA-248-PHX-ORD",
+      "sched_dep_time": "",
+      "act_dep_time": "1:43 p.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "5:34 p.m."
+    },
+    {
+      "src": "allegiantair",
+      "flight": "AA-1640-MIA-MCO",
+      "sched_dep_time": "6:30 p.m.",
+      "act_dep_time": "",
+      "sched_arr_time": "7:25 p.m.",
+      "act_arr_time": ""
+    },
+    {
+      "src": "travelocity",
+      "flight": "AA-3979-CVG-ORD",
+      "sched_dep_time": "7:30 a.m.",
+      "act_dep_time": "7:28 a.m.",
+      "sched_arr_time": "8:00 a.m.",
+      "act_arr_time": "8:06 a.m."
+    },
+    {
+      "src": "panynj",
+      "flight": "UA-3373-IAD-PHL",
+      "sched_dep_time": "",
+      "act_dep_time": "8:37 a.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "9:13 a.m."
+    },
+    {
+      "src": "ua",
+      "flight": "UA-858-PVG-SFO",
+      "sched_dep_time": "1:45 p.m.",
+      "act_dep_time": "1:32 p.m.",
+      "sched_arr_time": "8:27 a.m.",
+      "act_arr_time": "8:02 a.m."
+    },
+    {
+      "src": "orbitz",
+      "flight": "CO-50-CLE-EWR",
+      "sched_dep_time": "2:55 p.m.",
+      "act_dep_time": "3:31 p.m.",
+      "sched_arr_time": "4:49 p.m.",
+      "act_arr_time": "5:26 p.m."
+    },
+    {
+      "src": "gofox",
+      "flight": "AA-4330-CVG-ORD",
+      "sched_dep_time": "",
+      "act_dep_time": "3:36 p.m.",
+      "sched_arr_time": "",
+      "act_arr_time": "3:25 p.m."
+    }
+  ],
+  "inferred_domain": "travel booking sites",
+  "meta": {}
+}

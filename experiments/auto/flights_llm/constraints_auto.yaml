@@ -1,0 +1,334 @@
+dataset: flights_auto
+version: auto-1
+source: scripts/auto_pipeline.py
+profile:
+  n_rows: 2376
+  n_cols: 6
+  columns:
+  - src
+  - flight
+  - sched_dep_time
+  - act_dep_time
+  - sched_arr_time
+  - act_arr_time
+  excluded_cols:
+  - y_true
+  - err_type
+  - row_id
+  - tuple_id
+  inferred_domain: travel booking sites
+counts:
+  stats: 0
+  fd: 15
+  llm: 9
+  total: 24
+constraints:
+- id: AUTO-FD-sched_arr_time->sched_dep_time
+  type: functional_dependency
+  nl: sched_arr_time determines sched_dep_time (soft-confidence 0.934).
+  formal:
+    lhs:
+    - sched_arr_time
+    rhs:
+    - sched_dep_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9335
+  n_groups: 240
+- id: AUTO-FD-act_dep_time+sched_arr_time->sched_dep_time
+  type: functional_dependency
+  nl: act_dep_time + sched_arr_time determines sched_dep_time (soft-confidence 0.988).
+  formal:
+    lhs:
+    - act_dep_time
+    - sched_arr_time
+    rhs:
+    - sched_dep_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9882
+  n_groups: 631
+- id: AUTO-FD-sched_arr_time+act_arr_time->sched_dep_time
+  type: functional_dependency
+  nl: sched_arr_time + act_arr_time determines sched_dep_time (soft-confidence 0.976).
+  formal:
+    lhs:
+    - sched_arr_time
+    - act_arr_time
+    rhs:
+    - sched_dep_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9756
+  n_groups: 601
+- id: AUTO-FD-flight+sched_arr_time->sched_dep_time
+  type: functional_dependency
+  nl: flight + sched_arr_time determines sched_dep_time (soft-confidence 0.975).
+  formal:
+    lhs:
+    - flight
+    - sched_arr_time
+    rhs:
+    - sched_dep_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9752
+  n_groups: 365
+- id: AUTO-FD-flight+act_arr_time->sched_dep_time
+  type: functional_dependency
+  nl: flight + act_arr_time determines sched_dep_time (soft-confidence 0.861).
+  formal:
+    lhs:
+    - flight
+    - act_arr_time
+    rhs:
+    - sched_dep_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.8607
+  n_groups: 473
+- id: AUTO-FD-sched_dep_time+act_arr_time->sched_arr_time
+  type: functional_dependency
+  nl: sched_dep_time + act_arr_time determines sched_arr_time (soft-confidence 0.951).
+  formal:
+    lhs:
+    - sched_dep_time
+    - act_arr_time
+    rhs:
+    - sched_arr_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9508
+  n_groups: 578
+- id: AUTO-FD-sched_dep_time+act_dep_time->sched_arr_time
+  type: functional_dependency
+  nl: sched_dep_time + act_dep_time determines sched_arr_time (soft-confidence 0.900).
+  formal:
+    lhs:
+    - sched_dep_time
+    - act_dep_time
+    rhs:
+    - sched_arr_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.8998
+  n_groups: 530
+- id: AUTO-FD-flight+sched_dep_time->sched_arr_time
+  type: functional_dependency
+  nl: flight + sched_dep_time determines sched_arr_time (soft-confidence 0.885).
+  formal:
+    lhs:
+    - flight
+    - sched_dep_time
+    rhs:
+    - sched_arr_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.8847
+  n_groups: 280
+- id: AUTO-FD-sched_arr_time+act_arr_time->flight
+  type: functional_dependency
+  nl: sched_arr_time + act_arr_time determines flight (soft-confidence 0.971).
+  formal:
+    lhs:
+    - sched_arr_time
+    - act_arr_time
+    rhs:
+    - flight
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9705
+  n_groups: 601
+- id: AUTO-FD-sched_dep_time+act_arr_time->flight
+  type: functional_dependency
+  nl: sched_dep_time + act_arr_time determines flight (soft-confidence 0.962).
+  formal:
+    lhs:
+    - sched_dep_time
+    - act_arr_time
+    rhs:
+    - flight
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9621
+  n_groups: 578
+- id: AUTO-FD-act_dep_time+sched_arr_time->flight
+  type: functional_dependency
+  nl: act_dep_time + sched_arr_time determines flight (soft-confidence 0.960).
+  formal:
+    lhs:
+    - act_dep_time
+    - sched_arr_time
+    rhs:
+    - flight
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.96
+  n_groups: 631
+- id: AUTO-FD-sched_dep_time+act_dep_time->flight
+  type: functional_dependency
+  nl: sched_dep_time + act_dep_time determines flight (soft-confidence 0.936).
+  formal:
+    lhs:
+    - sched_dep_time
+    - act_dep_time
+    rhs:
+    - flight
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.936
+  n_groups: 530
+- id: AUTO-FD-sched_dep_time+act_arr_time->act_dep_time
+  type: functional_dependency
+  nl: sched_dep_time + act_arr_time determines act_dep_time (soft-confidence 0.860).
+  formal:
+    lhs:
+    - sched_dep_time
+    - act_arr_time
+    rhs:
+    - act_dep_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.8598
+  n_groups: 578
+- id: AUTO-FD-sched_arr_time+act_arr_time->act_dep_time
+  type: functional_dependency
+  nl: sched_arr_time + act_arr_time determines act_dep_time (soft-confidence 0.852).
+  formal:
+    lhs:
+    - sched_arr_time
+    - act_arr_time
+    rhs:
+    - act_dep_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.8523
+  n_groups: 601
+- id: AUTO-FD-act_dep_time+sched_arr_time->act_arr_time
+  type: functional_dependency
+  nl: act_dep_time + sched_arr_time determines act_arr_time (soft-confidence 0.881).
+  formal:
+    lhs:
+    - act_dep_time
+    - sched_arr_time
+    rhs:
+    - act_arr_time
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.8813
+  n_groups: 631
+- id: LLM-pattern-001
+  type: pattern
+  nl: sched_dep_time must follow a time format (e.g., 7:45 p.m.) or be empty.
+  formal:
+    column: sched_dep_time
+    regex: ^(?:[0-9]{1,2}:(?:[0-5][0-9]) (?:a|p)\.m\.|)$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-pattern-002
+  type: pattern
+  nl: act_dep_time must follow a time format or be empty.
+  formal:
+    column: act_dep_time
+    regex: ^(?:[0-9]{1,2}:(?:[0-5][0-9]) (?:a|p)\.m\.|)$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-pattern-003
+  type: pattern
+  nl: sched_arr_time must follow a time format or be empty.
+  formal:
+    column: sched_arr_time
+    regex: ^(?:[0-9]{1,2}:(?:[0-5][0-9]) (?:a|p)\.m\.|)$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-pattern-004
+  type: pattern
+  nl: act_arr_time must follow a time format or be empty.
+  formal:
+    column: act_arr_time
+    regex: ^(?:[0-9]{1,2}:(?:[0-5][0-9]) (?:a|p)\.m\.|)$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-domain-001
+  type: domain
+  nl: src must be one of known sources.
+  formal:
+    column: src
+    allowed:
+    - helloflight
+    - flightstats
+    - orbitz
+    - travelocity
+    - ua
+    - myrateplan
+    - allegiantair
+    - panynj
+    - boston
+    - flylouisville
+    - businesstravellogue
+    - flightview
+  severity: low
+  error_type_when_violated: domain_violation
+  source: auto_llm
+- id: LLM-fd-001
+  type: functional_dependency
+  nl: If sched_dep_time is non-empty, act_dep_time should also be non-empty (at least
+    scanned as actuals).
+  formal:
+    lhs:
+    - sched_dep_time
+    rhs:
+    - act_dep_time
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_llm
+- id: LLM-fd-002
+  type: functional_dependency
+  nl: If sched_arr_time is non-empty, act_arr_time should also be non-empty.
+  formal:
+    lhs:
+    - sched_arr_time
+    rhs:
+    - act_arr_time
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_llm
+- id: LLM-range-001
+  type: range
+  nl: Time values should be within a 24-hour day boundary.
+  formal:
+    column: sched_dep_time
+    min: 0
+    max: 2359
+  severity: low
+  error_type_when_violated: outlier
+  source: auto_llm
+- id: LLM-range-002
+  type: range
+  nl: act_dep_time should be within a 24-hour day boundary.
+  formal:
+    column: act_dep_time
+    min: 0
+    max: 2359
+  severity: low
+  error_type_when_violated: outlier
+  source: auto_llm

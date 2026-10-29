@@ -1,0 +1,58 @@
+run_id: auto_beers_test_full
+purpose: "AutoCSV-LED full-stack on Beers test n=1446 (paper Table 2)"
+goes_into_paper: ["T2_AutoCSV"]
+ablation_id: AUTO_LLM
+seed: 42
+
+dataset:
+  name: beers
+  version: v1
+  split: test
+  subset_n: 1446
+  constraints_path: D:/hoinghi_IUKM2026/experiments/auto/beers_llm/constraints_auto.yaml
+
+method:
+  name: maled
+  agents:
+    auditor: {prompt: auditor_v1, model: gpt-5-nano, temperature: 0.0, max_tokens: 1500}
+    expert:
+      prompt: D:/hoinghi_IUKM2026/experiments/auto/beers_llm/expert_prompt_auto.md
+      model: gpt-5-nano
+      temperature: 0.0
+      max_tokens: 1500
+      neighbor_k: 3
+    judge: {prompt: judge_v1, model: gpt-5-nano, temperature: 0.0, max_tokens: 1500}
+  bcl:
+    enabled: true
+    use_raw_conf: false
+    weights: {w1: 0.4, w2: 0.3, w3: 0.2, w4: 0.5}
+    calibrators_path: null
+  ds: {enabled: true}
+  uq:
+    self_consistency_M: 1
+    perturbations: []
+    n_perturb: 0
+  cadp:
+    enabled: true
+    use_conflict_gate: true
+    tau_e: 0.5
+    tau_c: 0.5
+    tau_k: 0.4
+    tau_omega: 0.4
+    alpha: 0.10
+    re_prompt_on_abstain: false
+
+llm:
+  provider: openai
+  retry: 2
+  timeout_s: 30
+  cache: {enabled: true, path: .cache/llm.sqlite}
+
+budget:
+  max_usd: 2.0
+  max_tokens_total: 10_000_000
+
+logging:
+  level: INFO
+  trace_n_samples: 10
+  save_per_sample_outputs: true

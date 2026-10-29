@@ -1,0 +1,1 @@
+{"ds": "beers", "split": "dev", "provider": "openai", "model": "gpt-5-nano", "rows_this_pass": 482, "expert_fallbacks": 3, "tokens_in": 1764591, "tokens_out": 164175, "seconds": 183.7}

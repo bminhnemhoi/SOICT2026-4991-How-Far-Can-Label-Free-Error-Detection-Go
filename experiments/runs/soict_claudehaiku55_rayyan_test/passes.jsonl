@@ -1,0 +1,1 @@
+{"ds": "rayyan", "split": "test", "provider": "anthropic", "model": "claude-haiku-5-5", "rows_this_pass": 600, "expert_fallbacks": 0, "tokens_in": 3170446, "tokens_out": 372226, "seconds": 233.7}

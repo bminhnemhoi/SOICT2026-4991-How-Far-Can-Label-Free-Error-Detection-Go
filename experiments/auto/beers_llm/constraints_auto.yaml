@@ -1,0 +1,289 @@
+dataset: beers_auto
+version: auto-1
+source: scripts/auto_pipeline.py
+profile:
+  n_rows: 2410
+  n_cols: 9
+  columns:
+  - beer_name
+  - style
+  - ounces
+  - abv
+  - ibu
+  - brewery_id
+  - brewery_name
+  - city
+  - state
+  excluded_cols:
+  - y_true
+  - err_type
+  - row_id
+  - index
+  - id
+  inferred_domain: beer
+counts:
+  stats: 0
+  fd: 13
+  llm: 8
+  total: 21
+constraints:
+- id: AUTO-FD-brewery_id->brewery_name
+  type: functional_dependency
+  nl: brewery_id determines brewery_name (soft-confidence 1.000).
+  formal:
+    lhs:
+    - brewery_id
+    rhs:
+    - brewery_name
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 1.0
+  n_groups: 558
+- id: AUTO-FD-brewery_id->city
+  type: functional_dependency
+  nl: brewery_id determines city (soft-confidence 0.950).
+  formal:
+    lhs:
+    - brewery_id
+    rhs:
+    - city
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9502
+  n_groups: 558
+- id: AUTO-FD-brewery_name->city
+  type: functional_dependency
+  nl: brewery_name determines city (soft-confidence 0.944).
+  formal:
+    lhs:
+    - brewery_name
+    rhs:
+    - city
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9436
+  n_groups: 551
+- id: AUTO-FD-brewery_id+state->city
+  type: functional_dependency
+  nl: brewery_id + state determines city (soft-confidence 1.000).
+  formal:
+    lhs:
+    - brewery_id
+    - state
+    rhs:
+    - city
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 1.0
+  n_groups: 661
+- id: AUTO-FD-brewery_name+state->city
+  type: functional_dependency
+  nl: brewery_name + state determines city (soft-confidence 0.993).
+  formal:
+    lhs:
+    - brewery_name
+    - state
+    rhs:
+    - city
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9925
+  n_groups: 654
+- id: AUTO-FD-city->state
+  type: functional_dependency
+  nl: city determines state (soft-confidence 0.978).
+  formal:
+    lhs:
+    - city
+    rhs:
+    - state
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9784
+  n_groups: 475
+- id: AUTO-FD-brewery_id->state
+  type: functional_dependency
+  nl: brewery_id determines state (soft-confidence 0.950).
+  formal:
+    lhs:
+    - brewery_id
+    rhs:
+    - state
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9502
+  n_groups: 558
+- id: AUTO-FD-brewery_name->state
+  type: functional_dependency
+  nl: brewery_name determines state (soft-confidence 0.950).
+  formal:
+    lhs:
+    - brewery_name
+    rhs:
+    - state
+  severity: medium
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9498
+  n_groups: 551
+- id: AUTO-FD-brewery_id+city->state
+  type: functional_dependency
+  nl: brewery_id + city determines state (soft-confidence 1.000).
+  formal:
+    lhs:
+    - brewery_id
+    - city
+    rhs:
+    - state
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 1.0
+  n_groups: 661
+- id: AUTO-FD-brewery_name+city->state
+  type: functional_dependency
+  nl: brewery_name + city determines state (soft-confidence 1.000).
+  formal:
+    lhs:
+    - brewery_name
+    - city
+    rhs:
+    - state
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9996
+  n_groups: 660
+- id: AUTO-FD-brewery_name->brewery_id
+  type: functional_dependency
+  nl: brewery_name determines brewery_id (soft-confidence 0.992).
+  formal:
+    lhs:
+    - brewery_name
+    rhs:
+    - brewery_id
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9921
+  n_groups: 551
+- id: AUTO-FD-brewery_name+city->brewery_id
+  type: functional_dependency
+  nl: brewery_name + city determines brewery_id (soft-confidence 1.000).
+  formal:
+    lhs:
+    - brewery_name
+    - city
+    rhs:
+    - brewery_id
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9996
+  n_groups: 660
+- id: AUTO-FD-brewery_name+state->brewery_id
+  type: functional_dependency
+  nl: brewery_name + state determines brewery_id (soft-confidence 0.993).
+  formal:
+    lhs:
+    - brewery_name
+    - state
+    rhs:
+    - brewery_id
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_fd
+  confidence: 0.9925
+  n_groups: 654
+- id: LLM-pattern-001
+  type: pattern
+  nl: ounces must follow a numeric with unit format like 12.0 oz. or 16.0 oz
+  formal:
+    column: ounces
+    regex: ^[0-9]+\.[0-9]+\s*oz(\.|)$
+  severity: high
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-domain-002
+  type: domain
+  nl: ibu should be numeric when provided; N/A allowed for missing values
+  formal:
+    column: ibu
+    allowed:
+    - N/A
+    - ''
+  severity: medium
+  error_type_when_violated: domain_violation
+  source: auto_llm
+- id: LLM-pattern-002
+  type: pattern
+  nl: abv should be a decimal number with 2-3 digits after decimal and optional %符;
+    normalize to numeric
+  formal:
+    column: abv
+    regex: ^[0-9]+\.[0-9]{2,3}%?$
+  severity: high
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-functional-001
+  type: functional_dependency
+  nl: brewery_id functionally determines brewery_name
+  formal:
+    lhs:
+    - brewery_id
+    rhs:
+    - brewery_name
+  severity: low
+  error_type_when_violated: fd_violation
+  source: auto_llm
+- id: LLM-pattern-003
+  type: pattern
+  nl: city should be non-empty string without digits
+  formal:
+    column: city
+    regex: ^[^0-9]+$
+  severity: low
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-range-001
+  type: range
+  nl: abv numeric value should be between 0.0 and 0.15 (converted from string)
+  formal:
+    column: abv
+    min: 0.0
+    max: 0.15
+  severity: high
+  error_type_when_violated: outlier
+  source: auto_llm
+- id: LLM-range-002
+  type: range
+  nl: ibu numeric value should be between 0 and 120 or N/A
+  formal:
+    column: ibu
+    min: 0
+    max: 120
+  severity: medium
+  error_type_when_violated: outlier
+  source: auto_llm
+- id: LLM-domain-003
+  type: domain
+  nl: ounces must be one of the canonical values observed (12.0 oz., 12.0 oz, 12.0
+    ounce, 16.0 oz., 16.0 oz)
+  formal:
+    column: ounces
+    allowed:
+    - 12.0 oz.
+    - 12.0 oz
+    - 12.0 ounce
+    - 16.0 oz.
+    - 16.0 oz
+  severity: medium
+  error_type_when_violated: domain_violation
+  source: auto_llm

@@ -1,0 +1,39 @@
+{
+  "run_id": "auto_rayyan_test_full",
+  "n_rows": 600,
+  "n_commit": 245,
+  "coverage": 0.4083333333333333,
+  "abstain_rate": 0.5916666666666667,
+  "detection": {
+    "precision": 0.8125,
+    "recall": 0.430939226519337,
+    "f1": 0.5631768953068592,
+    "auc_pr": 0.7705462848122675,
+    "auc_roc": 0.5748446132596685
+  },
+  "ece": 0.30672292483931607,
+  "brier": 0.26908665109934515,
+  "selective": {
+    "aurc": 0.5365125461569918,
+    "risk_at_cov_70": 0.580952380952381,
+    "risk_at_cov_80": 0.6145833333333334,
+    "risk_at_cov_90": 0.6462962962962963,
+    "risk_at_cov_full": 0.6683333333333333
+  },
+  "cost": {
+    "tokens_in": 2138784,
+    "tokens_out": 219660,
+    "n_calls": 1220,
+    "n_cache_hits": 0,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 2138784,
+        "tokens_out": 219660,
+        "n_calls": 1220,
+        "usd": 0.194803
+      }
+    },
+    "usd": 0.194803
+  },
+  "wall_clock_s": 2563.72
+}

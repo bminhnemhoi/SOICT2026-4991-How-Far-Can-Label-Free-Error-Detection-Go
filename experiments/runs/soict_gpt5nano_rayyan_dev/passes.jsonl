@@ -1,0 +1,1 @@
+{"ds": "rayyan", "split": "dev", "provider": "openai", "model": "gpt-5-nano", "rows_this_pass": 200, "expert_fallbacks": 0, "tokens_in": 706626, "tokens_out": 71530, "seconds": 80.8}

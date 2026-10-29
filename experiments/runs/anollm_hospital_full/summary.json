@@ -1,0 +1,21 @@
+{
+  "dataset": "hospital",
+  "model": "gpt-5-nano",
+  "n_rows": 600,
+  "wall_clock_s": 707.5233743190765,
+  "cost": {
+    "tokens_in": 158147,
+    "tokens_out": 8925,
+    "n_calls": 595,
+    "n_cache_hits": 5,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 158147,
+        "tokens_out": 8925,
+        "n_calls": 595,
+        "usd": 0.011477
+      }
+    },
+    "usd": 0.011477
+  }
+}

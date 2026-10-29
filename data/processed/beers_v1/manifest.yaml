@@ -1,0 +1,32 @@
+name: beers
+version: v1
+seed: 42
+fractions:
+  cal: 0.2
+  dev: 0.2
+  test: 0.6
+n_total: 2410
+n_cal: 482
+n_dev: 482
+n_test: 1446
+label_dist:
+  err: 2410
+err_type_dist:
+  typo: 2410
+columns:
+- row_id
+- index
+- id
+- beer_name
+- style
+- ounces
+- abv
+- ibu
+- brewery_id
+- brewery_name
+- city
+- state
+- y_true
+- err_type
+md5:
+  all: 3a12fcf10c519a9841ff2e1a8d5d8069

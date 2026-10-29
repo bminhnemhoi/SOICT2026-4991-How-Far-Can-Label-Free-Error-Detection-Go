@@ -1,0 +1,8 @@
+{
+  "movies_without_rating_cols": {
+    "P": 0.041,
+    "R": 0.207,
+    "F1": 0.069
+  },
+  "rating_cols_error_share": 0.8498329993319973
+}

@@ -1,0 +1,39 @@
+{
+  "run_id": "auto_flights_test_full",
+  "n_rows": 1426,
+  "n_commit": 581,
+  "coverage": 0.4074333800841515,
+  "abstain_rate": 0.5925666199158486,
+  "detection": {
+    "precision": 0.9431818181818182,
+    "recall": 0.24702380952380953,
+    "f1": 0.3915094339622642,
+    "auc_pr": 0.6684444759557712,
+    "auc_roc": 0.6133078231292517
+  },
+  "ece": 0.36164410625788906,
+  "brier": 0.26811446811397,
+  "selective": {
+    "aurc": 0.5451645926492138,
+    "risk_at_cov_70": 0.6563775157271092,
+    "risk_at_cov_80": 0.6967034163434837,
+    "risk_at_cov_90": 0.7265401112244148,
+    "risk_at_cov_full": 0.7517531556802244
+  },
+  "cost": {
+    "tokens_in": 3044295,
+    "tokens_out": 328288,
+    "n_calls": 1426,
+    "n_cache_hits": 1428,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 3044295,
+        "tokens_out": 328288,
+        "n_calls": 1426,
+        "usd": 0.28353
+      }
+    },
+    "usd": 0.28353
+  },
+  "wall_clock_s": 3844.52
+}

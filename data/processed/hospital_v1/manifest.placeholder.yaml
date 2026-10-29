@@ -1,0 +1,10 @@
+# Sample manifest (placeholder - sẽ overwrite khi build_data.sh chạy)
+# Mục đích: minh hoạ schema cho ai clone repo sớm
+
+dataset: hospital
+version: v1
+source: REIN benchmark + BART injection
+status: NOT_BUILT_YET
+note: |
+  Chạy `bash scripts/build_data.sh` để sinh manifest.json thật.
+  File này chỉ là placeholder cho cấu trúc thư mục.

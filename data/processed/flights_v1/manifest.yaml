@@ -1,0 +1,30 @@
+name: flights
+version: v1
+seed: 42
+fractions:
+  cal: 0.2
+  dev: 0.2
+  test: 0.6
+n_total: 2376
+n_cal: 475
+n_dev: 475
+n_test: 1426
+label_dist:
+  err: 1904
+  clean: 472
+err_type_dist:
+  typo: 1904
+  none: 472
+columns:
+- row_id
+- tuple_id
+- src
+- flight
+- sched_dep_time
+- act_dep_time
+- sched_arr_time
+- act_arr_time
+- y_true
+- err_type
+md5:
+  all: 011c14880a4e4280de230bc965f25f74

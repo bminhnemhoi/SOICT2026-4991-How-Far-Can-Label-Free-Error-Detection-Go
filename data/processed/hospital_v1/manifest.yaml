@@ -1,0 +1,44 @@
+name: hospital
+version: v1
+seed: 42
+fractions:
+  cal: 0.2
+  dev: 0.2
+  test: 0.6
+n_total: 1000
+n_cal: 200
+n_dev: 200
+n_test: 600
+label_dist:
+  clean: 732
+  err: 268
+err_type_dist:
+  none: 732
+  typo: 239
+  pattern_violation: 29
+columns:
+- row_id
+- index
+- ProviderNumber
+- HospitalName
+- Address
+- Address2
+- Address3
+- City
+- State
+- ZIP
+- CountyName
+- PhoneNumber
+- HospitalType
+- HospitalOwner
+- EmergencyService
+- Condition
+- MeasureCode
+- MeasureName
+- Score
+- Sample
+- Stateavg
+- y_true
+- err_type
+md5:
+  all: 8f55ee432edf40f97259d6adb736c1e4

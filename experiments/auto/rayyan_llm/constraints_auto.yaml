@@ -1,0 +1,143 @@
+dataset: rayyan_auto
+version: auto-1
+source: scripts/auto_pipeline.py
+profile:
+  n_rows: 1000
+  n_cols: 10
+  columns:
+  - article_title
+  - article_language
+  - journal_title
+  - jounral_abbreviation
+  - journal_issn
+  - article_jvolumn
+  - article_jissue
+  - article_jcreated_at
+  - article_pagination
+  - author_list
+  excluded_cols:
+  - y_true
+  - err_type
+  - row_id
+  - id
+  inferred_domain: Academic journals
+counts:
+  stats: 1
+  fd: 0
+  llm: 10
+  total: 11
+constraints:
+- id: AUTO-PAT-article_jissue
+  type: pattern
+  nl: Column article_jissue values match character-class pattern ^\d$.
+  formal:
+    column: article_jissue
+    regex: ^\d$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_stats
+  inferred_from_top_n: 5
+- id: LLM-pattern-001
+  type: pattern
+  nl: article_language should be one of common language codes or empty.
+  formal:
+    column: article_language
+    regex: ^(eng|ENG|English|)\s*$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-pattern-002
+  type: pattern
+  nl: article_jvolumn should be numeric or empty.
+  formal:
+    column: article_jvolumn
+    regex: ^[0-9]*$
+  severity: low
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-pattern-003
+  type: pattern
+  nl: article_jissue should be numeric or empty.
+  formal:
+    column: article_jissue
+    regex: ^[0-9]*$
+  severity: low
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-pattern-004
+  type: pattern
+  nl: article_jcreated_at should follow M/D/YY or similar; date-like.
+  formal:
+    column: article_jcreated_at
+    regex: ^(\d{1,2}/\d{1,2}/\d{2})$
+  severity: medium
+  error_type_when_violated: pattern
+  source: auto_llm
+- id: LLM-domain-001
+  type: domain
+  nl: journal_issn should be non-empty for known journals; but can be empty for unknown.
+  formal:
+    column: journal_issn
+    allowed:
+    - ''
+    - null
+    - ^(\d{4}-\d{3}[0-9Xx])$
+  severity: low
+  error_type_when_violated: domain_violation
+  source: auto_llm
+- id: LLM-domain-002
+  type: domain
+  nl: author_list should be a JSON array of author names; avoid stray {NULL}.
+  formal:
+    column: author_list
+    allowed:
+    - '{NULL}'
+    - ^\{.*\}$
+  severity: medium
+  error_type_when_violated: domain_violation
+  source: auto_llm
+- id: LLM-domain-003
+  type: domain
+  nl: article_pagination typically uses a start-end format; allow common variants
+    like 123-45 or 123-456.
+  formal:
+    column: article_pagination
+    allowed:
+    - ^\d+-\d+$
+    - ^\d+-\d+$
+    - ''
+  severity: low
+  error_type_when_violated: domain_violation
+  source: auto_llm
+- id: LLM-range-001
+  type: range
+  nl: article_jvolumn should be a reasonable publication volume number (positive integer).
+  formal:
+    column: article_jvolumn
+    min: 1
+    max: 10000
+  severity: medium
+  error_type_when_violated: outlier
+  source: auto_llm
+- id: LLM-range-002
+  type: range
+  nl: article_jissue should be positive and not zero when present.
+  formal:
+    column: article_jissue
+    min: 1
+    max: 1000
+  severity: medium
+  error_type_when_violated: outlier
+  source: auto_llm
+- id: LLM-functional-001
+  type: functional_dependency
+  nl: journal_title implies journal_issn; if journal_title is present, expect a non-empty
+    ISSN.
+  formal:
+    lhs:
+    - journal_title
+    rhs:
+    - journal_issn
+  severity: high
+  error_type_when_violated: fd_violation
+  source: auto_llm

@@ -1,0 +1,39 @@
+{
+  "run_id": "auto_hospital_test_full",
+  "n_rows": 600,
+  "n_commit": 465,
+  "coverage": 0.775,
+  "abstain_rate": 0.225,
+  "detection": {
+    "precision": 0.6857142857142857,
+    "recall": 0.24242424242424243,
+    "f1": 0.3582089552238806,
+    "auc_pr": 0.3275240888144114,
+    "auc_roc": 0.6061847988077496
+  },
+  "ece": 0.17464775475078978,
+  "brier": 0.20156308585349791,
+  "selective": {
+    "aurc": 0.14075418385203536,
+    "risk_at_cov_70": 0.17142857142857143,
+    "risk_at_cov_80": 0.19583333333333333,
+    "risk_at_cov_90": 0.2222222222222222,
+    "risk_at_cov_full": 0.22833333333333333
+  },
+  "cost": {
+    "tokens_in": 808784,
+    "tokens_out": 58766,
+    "n_calls": 323,
+    "n_cache_hits": 879,
+    "by_provider": {
+      "openai": {
+        "tokens_in": 808784,
+        "tokens_out": 58766,
+        "n_calls": 323,
+        "usd": 0.063946
+      }
+    },
+    "usd": 0.063946
+  },
+  "wall_clock_s": 704.04
+}

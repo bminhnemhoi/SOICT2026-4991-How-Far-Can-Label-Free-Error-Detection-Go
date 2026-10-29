@@ -1,0 +1,2 @@
+{"ds": "hospital", "split": "dev", "provider": "openai", "model": "gpt-5-nano", "rows_this_pass": 3, "expert_fallbacks": 0, "tokens_in": 12296, "tokens_out": 750, "seconds": 7.7}
+{"ds": "hospital", "split": "dev", "provider": "openai", "model": "gpt-5-nano", "rows_this_pass": 197, "expert_fallbacks": 0, "tokens_in": 971307, "tokens_out": 60907, "seconds": 37.6}
