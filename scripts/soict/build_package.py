@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "SOICT2026" / "camera_ready"
 PKG = ROOT / "SOICT2026" / "camera_ready_package"
 SIGNED = PKG / "4991_Licence_to_Publish_signed.pdf"
+OUTDIR = PKG / "FINAL_UPLOAD"  # the two files to upload, kept apart from working copies
 SOURCE_FILES = ["main.tex", "refs.bib", "main.bbl", "llncs.cls", "splncs04.bst"]
 
 
@@ -48,11 +49,12 @@ def main() -> int:
             return 1
 
     PKG.mkdir(parents=True, exist_ok=True)
-    shutil.copy(SRC / "main.pdf", PKG / "4991.pdf")
+    OUTDIR.mkdir(parents=True, exist_ok=True)
+    shutil.copy(SRC / "main.pdf", OUTDIR / "4991.pdf")
     if not SIGNED.exists() and not args.draft:
         print(f"Missing {SIGNED.name}: scan the ink-signed licence to this path, or use --draft.")
         return 2
-    zpath = PKG / ("4991_DRAFT_without_licence.zip" if args.draft and not SIGNED.exists() else "4991.zip")
+    zpath = OUTDIR / ("4991_DRAFT_without_licence.zip" if args.draft and not SIGNED.exists() else "4991.zip")
     with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
         for name in SOURCE_FILES:
             z.write(SRC / name, f"Source/{name}")
@@ -63,7 +65,7 @@ def main() -> int:
         z.write(PKG / "Corresponding_Author.txt", "Corresponding_Author.txt")
         if SIGNED.exists():
             z.write(SIGNED, SIGNED.name)
-    print("wrote", PKG / "4991.pdf", "and", zpath)
+    print("wrote", OUTDIR / "4991.pdf", "and", zpath)
     with zipfile.ZipFile(zpath) as z:
         for n in z.namelist():
             print("  ", n)
