@@ -19,7 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SRC = ROOT / "SOICT2026" / "camera_ready"
 PKG = ROOT / "SOICT2026" / "camera_ready_package"
-OUT = ROOT / "SOICT2026" / "NOP_BAI_SOICT2026_4991"
+OUT = ROOT / "SOICT2026" / "NOP_BAI_SOICT2026_4991_FINAL"
 
 
 def latex_to_text(s: str) -> str:
@@ -39,13 +39,16 @@ def main() -> None:
     final = PKG / "FINAL_UPLOAD"
     pdf, zp = final / "4991.pdf", final / "4991.zip"
     assert pdf.exists() and zp.exists(), "run build_package.py first"
-    if OUT.exists():
-        shutil.rmtree(OUT)
     up, meta, keep = OUT / "1_UPLOAD_EASYCHAIR", OUT / "2_THONG_TIN_EASYCHAIR", OUT / "3_HO_SO_LUU"
     for d in (up, meta, keep):
-        d.mkdir(parents=True)
-    shutil.copy(pdf, up / "4991.pdf")
-    shutil.copy(zp, up / "4991.zip")
+        d.mkdir(parents=True, exist_ok=True)
+
+    def put(src: Path, dst: Path) -> None:  # overwrite only when changed (a file open in a viewer stays untouched)
+        if not dst.exists() or dst.read_bytes() != src.read_bytes():
+            shutil.copy(src, dst)
+
+    put(pdf, up / "4991.pdf")
+    put(zp, up / "4991.zip")
 
     tex = (SRC / "main.tex").read_text(encoding="utf-8")
     title = re.search(r"\\title\{(.*?)\}\n", tex).group(1)
@@ -57,10 +60,10 @@ def main() -> None:
         f"Ho Chi Minh City, Vietnam\nORCID: 0009-0002-4141-3867\nKeywords: {keywords}\n\n"
         f"Abstract ({len(abstract.split())} words):\n{abstract}\n", encoding="utf-8")
 
-    shutil.copy(PKG / "4991_Licence_to_Publish_signed.pdf", keep / "4991_Licence_to_Publish_signed.pdf")
-    shutil.copy(PKG / "Corresponding_Author.txt", keep / "Corresponding_Author.txt")
-    shutil.copy(PKG / "4991_Licence_to_Publish_prefilled_PRINT.pdf", keep / "4991_Licence_to_Publish_prefilled_PRINT.pdf")
-    shutil.copy(ROOT / "SOICT2026" / "RESPONSE_TO_REVIEWERS.md", keep / "RESPONSE_TO_REVIEWERS.md")
+    put(PKG / "4991_Licence_to_Publish_signed.pdf", keep / "4991_Licence_to_Publish_signed.pdf")
+    put(PKG / "Corresponding_Author.txt", keep / "Corresponding_Author.txt")
+    put(PKG / "4991_Licence_to_Publish_prefilled_PRINT.pdf", keep / "4991_Licence_to_Publish_prefilled_PRINT.pdf")
+    put(ROOT / "SOICT2026" / "RESPONSE_TO_REVIEWERS.md", keep / "RESPONSE_TO_REVIEWERS.md")
 
     pages = re.search(r"Pages:\s+(\d+)", subprocess.run(["pdfinfo", str(pdf)], capture_output=True, text=True).stdout).group(1)
     with zipfile.ZipFile(zp) as z:

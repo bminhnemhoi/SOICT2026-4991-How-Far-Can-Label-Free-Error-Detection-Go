@@ -22,7 +22,7 @@ Nội dung `4991.zip`, đúng 3 thành phần ban tổ chức yêu cầu:
 
 ## 2. Các bước upload trên EasyChair
 
-1. Vào EasyChair SOICT 2026 và đăng nhập bằng tài khoản đã nộp bài.
+1. Vào EasyChair SOICT 2026 (https://easychair.org/conferences/?conf=soict2026) và đăng nhập bằng tài khoản đã nộp bài.
 2. Chọn vai trò **proceedings author** của *SOICT 2026 Proceedings*. Nếu không thấy vai trò này, xem mục 5.
 3. Mở **đúng entry của bài 4991**. **Không tạo submission mới.**
 4. Chọn mục upload hoặc cập nhật file của bài:
