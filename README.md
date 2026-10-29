@@ -1,9 +1,10 @@
-# AutoCSV-LED
+# SOICT 2026 · Paper 4991 · How Far Can Label-Free Error Detection Go?
 
-Code, prompts, cached LLM outputs and per-row results for the paper
+Code, prompts, cached LLM outputs and per-row results of **AutoCSV-LED** for the paper
 
-> B. M. Ngo. *How Far Can Label-Free Error Detection Go? Evidential Fusion of Data Profilers and LLM Judges for Tables.*
-> SOICT 2026, Communications in Computer and Information Science, Springer.
+> Binh Minh Ngo. *How Far Can Label-Free Error Detection Go? Evidential Fusion of Data Profilers and LLM Judges for Tables.*
+> The 15th International Symposium on Information and Communication Technology (SOICT 2026), Paper ID 4991.
+> Communications in Computer and Information Science, Springer.
 
 AutoCSV-LED detects erroneous cells in a table without labels. Five lightweight data profilers (pattern rarity, null tokens, near-duplicate typos, violations of mined functional dependencies, unit inconsistency) and two LLM judges are fused with Dempster–Shafer weights of evidence: the cautious rule inside a family of non-distinct sources, Dempster's rule across families. The system outputs cell flags, a row score with conflict and ignorance diagnostics, and a review queue whose expected size is bounded without labels.
 
